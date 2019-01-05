@@ -24,9 +24,9 @@ class MyTest(TaskSet):
         if r.json()["success"] == 'true':
             r.success()
         else:
-            r.failure('Failed!')
+            r.failure(r.json()['message'])
 
-        #d登录
+        #登录
         payload = {
             "lang":"zh_cn",
             "token":"awx",
@@ -50,10 +50,11 @@ class MyTest(TaskSet):
             }
         }
         r = self.client.post('awx/api/login/dLogin',data = json.dumps(payload),headers = headers,catch_response = True)
-        if r.json()["success"] == 'true':   
+        if r.json()["success"] == 'true': 
             r.success()
+            print(r.json()['value']['memberToken'],r.json()['value']['memberId'])  
         else:
-            r.failure('Failed!')
+            r.failure(r.json()['message'])
             
 
 
