@@ -16,10 +16,45 @@ class MyTest(TaskSet):
         payload = {
             "lang":"ZH_CN",
             "token":"awx",
+            "version":"222",
             "body":{"mobile":self.phone}
         }
         headers = {"Content-Type":"application/json"}
-        r = self.client.post('awx/api/comm/dCaptcha',data = json.dumps(payload),headers = headers)
+        r = self.client.post('awx/api/comm/dCaptcha',data = json.dumps(payload),headers = headers,catch_response = True)
+        if r.json()["success"] == 'true':
+            r.success()
+        else:
+            r.failure('Failed!')
+
+        #d登录
+        payload = {
+            "lang":"zh_cn",
+            "token":"awx",
+            "version":"222",
+            "body":{
+                "accessToken": "X14aerX5hqH7I5GWHPC7WsUiSAoJk0VN",
+                "address": "浙江省杭州市滨江区浦沿街道伟业路294号",
+                "area": "滨江区",
+                "captcha": "9999",
+                "city": "杭州市",
+                "deviceCode": "",
+                "deviceSysVer": "6.0.1",
+                "deviceType": "vivo X9i",
+                "lat": "30.181118",
+                "lng": "120.156818",
+                "loginIp": "10.192.108.157",
+                "mobile": self.phone,
+                "platForm": "2",
+                "province": "浙江省",
+                "ymToken": "Ar0JCmzzXaIX6Wmh0qwftedY1SyrZB612FZ4ct8IC0if"
+            }
+        }
+        r = self.client.post('awx/api/login/dLogin',data = json.dumps(payload),headers = headers,catch_response = True)
+        if r.json()["success"] == 'true':   
+            r.success()
+        else:
+            r.failure('Failed!')
+            
 
 
     def on_stop(self):
