@@ -7,22 +7,26 @@ import GetImage
 
 import random
 
-class login(TaskSet):
+class MyTest(TaskSet):
     def on_start(self):
         phonedata =  GetExcl.read_excl().get_excl_data()
-        phone = phonedata[random.randint(1,2000)]['phone']#随机获取一个手机号
-        # payload = {"Phone":'18506826613',"CodeType":1,"Domain":'sss'}
-        # headers = {"Content-Type":"application/json"}
-        # self.client.post('api/SMS/Send/Code',data = json.dumps(payload),headers = headers)
+        self.phone = phonedata[random.randint(1,2000)]['phone']#随机获取一个手机号
 
-        # payload = {"grant_type":'phonecode', "phone": '18506826613',"code":1234}
-        # r = self.client.post('api/Token', data = payload)
-        # self.session = r.json()["token_type"]+" "+r.json()["access_token"]
+        #发送验证码
+        payload = {
+            "lang":"ZH_CN",
+            "token":"awx",
+            "body":{"mobile":self.phone}
+        }
+        headers = {"Content-Type":"application/json"}
+        r = self.client.post('awx/api/comm/dCaptcha',data = json.dumps(payload),headers = headers)
+
 
     def on_stop(self):
         """
         :return:
         """
+        
     @task(2)
     def test(self):
         imagedata = GetImage.get_image().chosePic()
@@ -36,8 +40,8 @@ class login(TaskSet):
     #     print(r.status_code,r.json())
 
 class BestTestIndexUser(HttpLocust):
-    host = "http://api.qkt.qianjifang.com.cn/" 
-    task_set = login 
+    host = "https://api.i5show.cn/" 
+    task_set = MyTest 
 
     min_wait = 0
     max_wait = 10000
