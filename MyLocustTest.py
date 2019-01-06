@@ -58,6 +58,7 @@ class MyTest(TaskSet):
             r.failure(r.json()['message'])
 
         self.shuoshuo = 1
+        self.xiangce = 1
             
 
 
@@ -71,11 +72,42 @@ class MyTest(TaskSet):
     #     imagedata = GetImage.get_image().chosePic()
     #     print(imagedata)
 
-    @task(2)
-    def HomePublish(self):
-        img = ''
-        for i in range(random.randint(1,9)):
-            img = img+ "http://i5show.oss-cn-beijing.aliyuncs.com/test/BinTest/D{0}.jpg,".format(random.randint(1,9))
+    # #创建说说
+    # @task(2)
+    # def HomePublish(self):
+    #     img = ''
+    #     for i in range(random.randint(1,9)):
+    #         img = img+ "http://i5show.oss-cn-beijing.aliyuncs.com/test/BinTest/D{0}.jpg,".format(random.randint(1,9))
+
+    #     headers = {"Content-Type":"application/json"}
+    #     payload = {
+    #         "lang":"zh_cn",
+    #         "token":"awx",
+    #         "version":"222",
+    #         "body":{
+    #             "memberToken": self.memberToken,
+    #             "memberId":self.memberId,
+    #             "content":"说说"+str(self.shuoshuo),
+    #             "imgs":img,
+    #             "city":"杭州",
+    #             "area":"上城"
+
+    #         }
+    #     }
+    #     r = self.client.post('awx/api/home/dHomePublish',data = json.dumps(payload),headers = headers,catch_response = True)
+    #     if r.json()["success"] == 'true': 
+    #         r.success()
+    #         self.shuoshuo = self.shuoshuo +1
+    #     else:
+    #         r.failure(r.json()['message'])
+
+    @task(1)
+    def PhotoPublish(self):
+        Photo = [{"link":"https://h5.i5show.cn/test/H5/pages/album/album.html?templateId=1&json=i5show/user/data/502022/491028329057.json","shareImg":"https://thirdwx.qlogo.cn/mmopen/vi_32/IsGYtTAciawr1iaQMuSAicZ1Ptdib7ujGroJ9rVZMZKamo2wRqTVfS6gB2RXDXS36d5jBZBD7N04drqo8EWjia7WF6A/132?x-oss-process=image/resize,m_fill,h_80,w_80"},
+        {"link":"https://h5.i5show.cn/test/H5/pages/album/album.html?templateId=3&json=i5show/user/data/502022/426442241.json","shareImg":"https://h5.i5show.cn/i5show/user/album/502022/803436953973.jpg?x-oss-process=image/resize,m_fill,h_80,w_80"},
+        {"link":"https://h5.i5show.cn/test/H5/pages/album/album.html?templateId=2&json=i5show/user/data/502022/201567293432.json","shareImg":"https://h5.i5show.cn/i5show/user/album/502022/12702501352.jpg?x-oss-process=image/resize,m_fill,h_80,w_80"}]
+
+        Pohotoinfo = Photo[random.randint(0,2)]
 
         headers = {"Content-Type":"application/json"}
         payload = {
@@ -85,20 +117,20 @@ class MyTest(TaskSet):
             "body":{
                 "memberToken": self.memberToken,
                 "memberId":self.memberId,
-                "content":"说说"+str(self.shuoshuo),
-                "imgs":img,
+                "title":"相册"+str(self.xiangce),
+                "link":Pohotoinfo["link"],
                 "city":"杭州",
-                "area":"上城"
-
+                "area":"上城",
+                "shareImg":Pohotoinfo["shareImg"]
             }
         }
-        r = self.client.post('awx/api/home/dHomePublish',data = json.dumps(payload),headers = headers,catch_response = True)
+        r = self.client.post('awx/api/photo/dPhotoPublish',data = json.dumps(payload),headers = headers,catch_response = True)
         if r.json()["success"] == 'true': 
             r.success()
-            self.shuoshuo = self.shuoshuo +1
+            self.xiangce = self.xiangce +1
         else:
             r.failure(r.json()['message'])
-        
+   
 
 class BestTestIndexUser(HttpLocust):
     host = "https://api.i5show.cn/" 
