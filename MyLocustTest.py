@@ -10,6 +10,7 @@ import random
 class MyTest(TaskSet):
     def on_start(self):
         self.phone = self.locust.phones.pop(1)#获取一个手机号
+
         # #发送验证码
         # payload = {
         #     "lang":"ZH_CN",
@@ -72,64 +73,92 @@ class MyTest(TaskSet):
     #     imagedata = GetImage.get_image().chosePic()
     #     print(imagedata)
 
-    #创建说说
-    @task(1)
-    def HomePublish(self):
-        img = ''
-        for i in range(random.randint(1,9)):
-            img = img+ "http://i5show.oss-cn-beijing.aliyuncs.com/test/BinTest/D{0}.jpg,".format(random.randint(1,9))
+    # #创建说说
+    # @task(1)
+    # def HomePublish(self):
+    #     img = ''
+    #     for i in range(random.randint(1,9)):
+    #         img = img+ "http://i5show.oss-cn-beijing.aliyuncs.com/test/BinTest/D{0}.jpg,".format(random.randint(1,9))
 
-        num = random.randint(0,len(self.locust.memberinfo)-1)
-        headers = {"Content-Type":"application/json"}
-        payload = {
-            "lang":"zh_cn",
-            "token":"awx",
-            "version":"222",
-            "body":{
-                "memberToken": self.locust.memberinfo[num]["memberToken"],
-                "memberId":self.locust.memberinfo[num]["memberId"],
-                "content":"说说"+str(self.shuoshuo),
-                "imgs":img,
-                "city":"杭州",
-                "area":"上城"
+    #     num = random.randint(0,len(self.locust.memberinfo)-1)
+    #     headers = {"Content-Type":"application/json"}
+    #     payload = {
+    #         "lang":"zh_cn",
+    #         "token":"awx",
+    #         "version":"222",
+    #         "body":{
+    #             "memberToken": self.locust.memberinfo[num]["memberToken"],
+    #             "memberId":self.locust.memberinfo[num]["memberId"],
+    #             "content":"说说"+str(self.shuoshuo),
+    #             "imgs":img,
+    #             "city":"杭州",
+    #             "area":"上城"
 
-            }
-        }
-        r = self.client.post('awx/api/home/dHomePublish',data = json.dumps(payload),headers = headers,catch_response = True)
-        if r.json()["success"] == 'true': 
-            r.success()
-            self.shuoshuo = self.shuoshuo +1
-        else:
-            r.failure(r.json()['message'])
+    #         }
+    #     }
+    #     r = self.client.post('awx/api/home/dHomePublish',data = json.dumps(payload),headers = headers,catch_response = True)
+    #     if r.json()["success"] == 'true': 
+    #         r.success()
+    #         self.shuoshuo = self.shuoshuo +1
+    #     else:
+    #         r.failure(r.json()['message'])
 
-    @task(1)
-    def PhotoPublish(self):
-        Photo = [{"link":"https://h5.i5show.cn/test/H5/pages/album/album.html?templateId=1&json=i5show/user/data/502022/491028329057.json","shareImg":"https://thirdwx.qlogo.cn/mmopen/vi_32/IsGYtTAciawr1iaQMuSAicZ1Ptdib7ujGroJ9rVZMZKamo2wRqTVfS6gB2RXDXS36d5jBZBD7N04drqo8EWjia7WF6A/132?x-oss-process=image/resize,m_fill,h_80,w_80"},
-        {"link":"https://h5.i5show.cn/test/H5/pages/album/album.html?templateId=3&json=i5show/user/data/502022/426442241.json","shareImg":"https://h5.i5show.cn/i5show/user/album/502022/803436953973.jpg?x-oss-process=image/resize,m_fill,h_80,w_80"},
-        {"link":"https://h5.i5show.cn/test/H5/pages/album/album.html?templateId=2&json=i5show/user/data/502022/201567293432.json","shareImg":"https://h5.i5show.cn/i5show/user/album/502022/12702501352.jpg?x-oss-process=image/resize,m_fill,h_80,w_80"}]
+    # #创建相册
+    # @task(1)
+    # def PhotoPublish(self):
+    #     Photo = [{"link":"https://h5.i5show.cn/test/H5/pages/album/album.html?templateId=1&json=i5show/user/data/502022/491028329057.json","shareImg":"https://thirdwx.qlogo.cn/mmopen/vi_32/IsGYtTAciawr1iaQMuSAicZ1Ptdib7ujGroJ9rVZMZKamo2wRqTVfS6gB2RXDXS36d5jBZBD7N04drqo8EWjia7WF6A/132?x-oss-process=image/resize,m_fill,h_80,w_80"},
+    #     {"link":"https://h5.i5show.cn/test/H5/pages/album/album.html?templateId=3&json=i5show/user/data/502022/426442241.json","shareImg":"https://h5.i5show.cn/i5show/user/album/502022/803436953973.jpg?x-oss-process=image/resize,m_fill,h_80,w_80"},
+    #     {"link":"https://h5.i5show.cn/test/H5/pages/album/album.html?templateId=2&json=i5show/user/data/502022/201567293432.json","shareImg":"https://h5.i5show.cn/i5show/user/album/502022/12702501352.jpg?x-oss-process=image/resize,m_fill,h_80,w_80"}]
 
-        Pohotoinfo = Photo[random.randint(0,2)]
+    #     Pohotoinfo = Photo[random.randint(0,2)]
                         
+    #     num = random.randint(0,len(self.locust.memberinfo)-1)
+    #     headers = {"Content-Type":"application/json"}
+    #     payload = {
+    #         "lang":"zh_cn",
+    #         "token":"awx",
+    #         "version":"222",
+    #         "body":{
+    #             "memberToken": self.locust.memberinfo[num]["memberToken"],
+    #             "memberId":self.locust.memberinfo[num]["memberId"],
+    #             "title":"相册"+str(self.xiangce),
+    #             "link":Pohotoinfo["link"],
+    #             "city":"杭州",
+    #             "area":"上城",
+    #             "shareImg":Pohotoinfo["shareImg"]
+    #         }
+    #     }
+    #     r = self.client.post('awx/api/photo/dPhotoPublish',data = json.dumps(payload),headers = headers,catch_response = True)
+    #     if r.json()["success"] == 'true': 
+    #         r.success()
+    #         self.xiangce = self.xiangce +1
+    #     else:
+    #         r.failure(r.json()['message'])
+
+    #家人圈列表
+    @task(1)
+    def HomeList(self):
         num = random.randint(0,len(self.locust.memberinfo)-1)
+
         headers = {"Content-Type":"application/json"}
         payload = {
             "lang":"zh_cn",
             "token":"awx",
             "version":"222",
             "body":{
-                "memberToken": self.locust.memberinfo[num]["memberToken"],
+                "type":random.randint(1,3),
                 "memberId":self.locust.memberinfo[num]["memberId"],
-                "title":"相册"+str(self.xiangce),
-                "link":Pohotoinfo["link"],
-                "city":"杭州",
-                "area":"上城",
-                "shareImg":Pohotoinfo["shareImg"]
+                "currentPage":""
             }
         }
-        r = self.client.post('awx/api/photo/dPhotoPublish',data = json.dumps(payload),headers = headers,catch_response = True)
+        r = self.client.post('awx/api/home/qHomeList',data = json.dumps(payload),headers = headers,catch_response = True)
         if r.json()["success"] == 'true': 
             r.success()
-            self.xiangce = self.xiangce +1
+            self.homeids = []
+            for i in range(len(r.json()["value"])):
+                self.homeids.append(r.json()["value"][i]["homeId"])
+            print(self.homeids)
+               
         else:
             r.failure(r.json()['message'])
    
