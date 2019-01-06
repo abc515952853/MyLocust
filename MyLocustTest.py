@@ -52,9 +52,12 @@ class MyTest(TaskSet):
         r = self.client.post('awx/api/login/dLogin',data = json.dumps(payload),headers = headers,catch_response = True)
         if r.json()["success"] == 'true': 
             r.success()
-            print(r.json()['value']['memberToken'],r.json()['value']['memberId'])  
+            self.memberToken = r.json()['value']['memberToken']
+            self.memberId = r.json()['value']['memberId']
         else:
             r.failure(r.json()['message'])
+
+        self.shuoshuo = 1
             
 
 
@@ -63,17 +66,39 @@ class MyTest(TaskSet):
         :return:
         """
         
-    @task(2)
-    def test(self):
-        imagedata = GetImage.get_image().chosePic()
-        print(imagedata)
-
     # @task(2)
-    # def addclient(self):
-    #     headers = {'Content-Type': "application/json",'Authorization':self.session,"Origin":'http://test.qkt.qianjifang.com.cn'}
-    #     payload = {"display": "测试客户","phone": "18506826613","level":'' }
-    #     r = self.client.post('api/Client', headers = headers,data = json.dumps(payload))
-    #     print(r.status_code,r.json())
+    # def test(self):
+    #     imagedata = GetImage.get_image().chosePic()
+    #     print(imagedata)
+
+    @task(2)
+    def HomePublish(self):
+        img = ''
+        for i in range(random.randint(1,9)):
+            img = img+ "http://i5show.oss-cn-beijing.aliyuncs.com/test/BinTest/D{0}.jpg,".format(random.randint(1,9))
+
+        headers = {"Content-Type":"application/json"}
+        payload = {
+            "lang":"zh_cn",
+            "token":"awx",
+            "version":"222",
+            "body":{
+                "memberToken": self.memberToken,
+                "memberId":self.memberId,
+                "content":"说说"+str(self.shuoshuo),
+                "imgs":img,
+                "city":"杭州",
+                "area":"上城"
+
+            }
+        }
+        r = self.client.post('awx/api/home/dHomePublish',data = json.dumps(payload),headers = headers,catch_response = True)
+        if r.json()["success"] == 'true': 
+            r.success()
+            self.shuoshuo = self.shuoshuo +1
+        else:
+            r.failure(r.json()['message'])
+        
 
 class BestTestIndexUser(HttpLocust):
     host = "https://api.i5show.cn/" 
