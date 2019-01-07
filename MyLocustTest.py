@@ -13,40 +13,56 @@ class MyTest(TaskSet):
         # self.SendCode()
         self.LogIn()
 
-    #创建说说
-    @task(6)
-    def test_HomePublish(self):
-        self.HomePublish()
+#     #创建说说
+#     @task(6)
+#     def test_HomePublish(self):
+#         self.HomePublish()
     
-    #创建相册
-    @task(6)
-    def test_PhotoPublish(self):
-        self.PhotoPublish()
+#     #创建相册
+#     @task(6)
+#     def test_PhotoPublish(self):
+#         self.PhotoPublish()
 
-    #家人圈列表
-    @task(5)
-    def test_HomeList(self):
-        self.HomeList()
+#     #家人圈列表
+#     @task(5)
+#     def test_HomeList(self):
+#         self.HomeList()
 
-    #点赞
-    @task(100)
-    def test_HomeParise(self):
-        self.HomeParise()
+#     #点赞
+#     @task(100)
+#     def test_HomeParise(self):
+#         self.HomeParise()
 
-    #评论
-    @task(100)
-    def test_PhotoComment(self):
-        self.PhotoComment()
+#     #评论
+#     @task(100)
+#     def test_PhotoComment(self):
+#         self.PhotoComment()
 
-    #获取基础数据
+#     #获取基础数据
+#     @task(1)
+#     def test_BaseData(self):
+#         self.BaseData() 
+
+#    #获取用户基本信息
+#     @task(1)
+#     def test_UserInfo(self):
+#         self.UserInfo()
+
+    # #轮播数据
+    # @task(1)
+    # def test_Broadcast(self):
+    #     self.Broadcast()
+    
+    # #系统礼物数据
+    # @task(1)
+    # def test_Gift(self):
+    #     self.Gift()
+
+    #版本检测接口
     @task(1)
-    def test_BaseData(self):
-        self.BaseData() 
+    def test_CheckAccess(self):
+        self.CheckAccess()
 
-   #获取用户基本信息
-    @task(1)
-    def test_UserInfo(self):
-        self.UserInfo() 
 
 
     # @task(1)
@@ -54,16 +70,67 @@ class MyTest(TaskSet):
     #     imagedata = GetImage.get_image().chosePic()
     #     print(imagedata)
 
-
     def on_stop(self):
         """
         :return:
         """
 
-    #轮播接口
-    def Broadcast(self)：
+    def CheckAccess(self):
+        headers = {"Content-Type":"application/json"}
+        payload = {
+            "lang":"ZH_CN",
+            "token":"awx",
+            "version":"222",
+            "body":{
+                "accessToken":"X14aerX5hqH7I5GWHPC7WsUiSAoJk0VN",
+                "platForm":"ios"
+            }
+        }
+        r = self.client.post('awx/api/comm/dCheckAccess',data = json.dumps(payload),headers = headers,catch_response = True)
+        if r.status_code == 200:
+            if r.json()["success"] == 'true':
+                r.success()
+                print(r.json())
+            else:
+                r.failure(r.json()['message'])
+        else:
+            r.failure("HTTP状态码"+r.status_code)
+        
+    #系统礼物数据
+    def Gift(self):
+        headers = {"Content-Type":"application/json"}
+        payload = {
+            "lang":"ZH_CN",
+            "token":"awx",
+            "version":"222",
+            "body":""
+        }
+        r = self.client.post('awx/api/comm/qGift',data = json.dumps(payload),headers = headers,catch_response = True)
+        if r.status_code == 200:
+            if r.json()["success"] == 'true':
+                r.success()
+            else:
+                r.failure(r.json()['message'])
+        else:
+            r.failure("HTTP状态码"+r.status_code)
 
-
+    #轮播数据
+    def Broadcast(self):
+        headers = {"Content-Type":"application/json"}
+        payload = {
+            "lang":"ZH_CN",
+            "token":"awx",
+            "version":"222",
+            "body":""
+        }
+        r = self.client.post('awx/api/comm/qBroadcast',data = json.dumps(payload),headers = headers,catch_response = True)
+        if r.status_code == 200:
+            if r.json()["success"] == 'true':
+                r.success()
+            else:
+                r.failure(r.json()['message'])
+        else:
+            r.failure("HTTP状态码"+r.status_code)
 
     #获取用户基本信息
     def UserInfo(self):
