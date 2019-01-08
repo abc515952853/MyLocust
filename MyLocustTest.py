@@ -13,56 +13,107 @@ class MyTest(TaskSet):
         # self.SendCode()
         self.LogIn()
 
-#     #创建说说
-#     @task(6)
-#     def test_HomePublish(self):
-#         self.HomePublish()
+    #创建说说
+    @task(6)
+    def test_HomePublish(self):
+        self.HomePublish()
     
-#     #创建相册
-#     @task(6)
-#     def test_PhotoPublish(self):
-#         self.PhotoPublish()
+    #创建相册
+    @task(6)
+    def test_PhotoPublish(self):
+        self.PhotoPublish()
 
-#     #家人圈列表
-#     @task(5)
-#     def test_HomeList(self):
-#         self.HomeList()
+    #家人圈列表
+    @task(5)
+    def test_HomeList(self):
+        self.HomeList()
 
-#     #点赞
-#     @task(100)
-#     def test_HomeParise(self):
-#         self.HomeParise()
+    #点赞
+    @task(100)
+    def test_HomeParise(self):
+        self.HomeParise()
 
-#     #评论
-#     @task(100)
-#     def test_PhotoComment(self):
-#         self.PhotoComment()
+    #评论
+    @task(100)
+    def test_PhotoComment(self):
+        self.PhotoComment()
 
-#     #获取基础数据
-#     @task(1)
-#     def test_BaseData(self):
-#         self.BaseData() 
+    #获取基础数据
+    @task(10)
+    def test_BaseData(self):
+        self.BaseData() 
 
-#    #获取用户基本信息
-#     @task(1)
-#     def test_UserInfo(self):
-#         self.UserInfo()
+   #获取用户基本信息
+    @task(10)
+    def test_UserInfo(self):
+        self.UserInfo()
 
-    # #轮播数据
-    # @task(1)
-    # def test_Broadcast(self):
-    #     self.Broadcast()
+    #轮播数据
+    @task(10)
+    def test_Broadcast(self):
+        self.Broadcast()
     
-    # #系统礼物数据
-    # @task(1)
-    # def test_Gift(self):
-    #     self.Gift()
+    #系统礼物数据
+    @task(10)
+    def test_Gift(self):
+        self.Gift()
 
     #版本检测接口
-    @task(1)
+    @task(10)
     def test_CheckAccess(self):
         self.CheckAccess()
 
+    #首页_家人圈列表 _送礼物
+    @task(10)
+    def test_HomeGiftList(self):
+        self.HomeGiftList()
+
+    #投票列表
+    @task(10)
+    def test_VoteList(self):
+        self.VoteList()
+
+    #添加用户
+    @task(10)
+    def test_AddUser(self):
+        self.AddUser()
+
+
+    #用户列表 
+    @task(1)
+    def test_UserList(self):
+        self.UserList()
+
+    #成员报告列表
+    @task(10)
+    def test_UserReportList(self):
+        self.UserReportList()
+
+    #报告列表
+    @task(10)
+    def test_ReportList(self):
+        self.ReportList()
+
+    #同步成员检测报告
+    @task(1)
+    def test_SyncReport(self):
+        self.SyncReport()
+
+    @task(10)
+    def test_MyInfo(self):
+        self.MyInfo()
+
+    @task(10)
+    def test_MyMessage(self):
+        self.MyMessage()
+    
+    @task(10)
+    def test_MyShow(self):
+        self.MyShow()
+
+    @task(10)
+    def test_DelMyShow(self):
+        self.DelMyShow()
 
 
     # @task(1)
@@ -70,11 +121,299 @@ class MyTest(TaskSet):
     #     imagedata = GetImage.get_image().chosePic()
     #     print(imagedata)
 
-    def on_stop(self):
-        """
-        :return:
-        """
+    # def on_stop(self):
+    #     """
+    #     :return:
+    #     """
+    def DelMyShow(self):
+        num = random.randint(0,len(self.locust.memberinfo)-1)
+        headers = {"Content-Type":"application/json"} 
+        type = random.randint(1,2)
+        if type ==1:
+            if len(self.myshowhome)>0:
+                payload = {
+                    "lang":"ZH_CN",
+                    "token":"awx",
+                    "version":"222",
+                    "body":{
+                        "memberToken": self.locust.memberinfo[num]["memberToken"],
+                        "memberId":self.locust.memberinfo[num]["memberId"],
+                        "photoId":"",
+                        "homeId":self.myshowhome,
+                        "type":type
+                    }
+                }
+                print(self.myshowhome)
+                r = self.client.post('awx/api/member/dDelMyShow',data = json.dumps(payload),headers = headers,catch_response = True)
+                if r.status_code == 200:
+                    if r.json()["success"] == 'true':
+                        r.success()
+                    else:
+                        r.failure(r.json()['message'])
+                else:
+                    r.failure("HTTP状态码"+str(r.status_code))  
+        elif type ==2:
+            if len(self.myshowpotho)>0:
+                payload = {
+                    "lang":"ZH_CN",
+                    "token":"awx",
+                    "version":"222",
+                    "body":{
+                        "memberToken": self.locust.memberinfo[num]["memberToken"],
+                        "memberId":self.locust.memberinfo[num]["memberId"],
+                        "photoId":self.myshowpotho,
+                        "homeId":"",
+                        "type":type
+                    }
+                }
+                print(self.myshowpotho)
+                r = self.client.post('awx/api/member/dDelMyShow',data = json.dumps(payload),headers = headers,catch_response = True)
+                if r.status_code == 200:
+                    if r.json()["success"] == 'true':
+                        r.success()
+                    else:
+                        r.failure(r.json()['message'])
+                else:
+                    r.failure("HTTP状态码"+str(r.status_code))  
+        
+    def MyShow(self):
+        num = random.randint(0,len(self.locust.memberinfo)-1)
+        headers = {"Content-Type":"application/json"}
+        type = random.randint(1,2)
+        payload = {
+            "lang":"ZH_CN",
+            "token":"awx",
+            "version":"222",
+            "body":{
+                "memberToken": self.locust.memberinfo[num]["memberToken"],
+                "memberId":self.locust.memberinfo[num]["memberId"],
+                "currentPage":"",
+                "type":type
+            }
+        }
+        r = self.client.post('awx/api/member/qMyShow',data = json.dumps(payload),headers = headers,catch_response = True)
+        if r.status_code == 200:
+            if r.json()["success"] == 'true':
+                r.success()
+                if len(r.json()["value"])>0:
+                    if type == 1:
+                        self.myshowhome = r.json()["value"][0]["homeId"]
+                    elif type == 2:
+                        self.myshowpotho = r.json()["value"][0]["photoId"]
+            else:
+                r.failure(r.json()['message'])
+        else:
+            r.failure("HTTP状态码"+str(r.status_code))  
+        
 
+    def MyMessage(self):
+        num = random.randint(0,len(self.locust.memberinfo)-1)
+        headers = {"Content-Type":"application/json"}
+        payload = {
+            "lang":"ZH_CN",
+            "token":"awx",
+            "version":"222",
+            "body":{
+                "memberToken": self.locust.memberinfo[num]["memberToken"],
+                "memberId":self.locust.memberinfo[num]["memberId"],
+                "currentPage":"",
+                "type":1
+            }
+        }
+        r = self.client.post('awx/api/member/qMyMessage',data = json.dumps(payload),headers = headers,catch_response = True)
+        if r.status_code == 200:
+            if r.json()["success"] == 'true':
+                r.success()
+            else:
+                r.failure(r.json()['message'])
+        else:
+            r.failure("HTTP状态码"+str(r.status_code))  
+
+    def MyInfo(self):
+        num = random.randint(0,len(self.locust.memberinfo)-1)
+        headers = {"Content-Type":"application/json"}
+        payload = {
+            "lang":"ZH_CN",
+            "token":"awx",
+            "version":"222",
+            "body":{
+                "memberToken": self.locust.memberinfo[num]["memberToken"],
+                "memberId":self.locust.memberinfo[num]["memberId"],
+            }
+        }
+        r = self.client.post('awx/api/member/qMyInfo',data = json.dumps(payload),headers = headers,catch_response = True)
+        if r.status_code == 200:
+            if r.json()["success"] == 'true':
+                r.success()
+            else:
+                r.failure(r.json()['message'])
+        else:
+            r.failure("HTTP状态码"+str(r.status_code))  
+
+
+    #同步成员检测报告
+    def SyncReport(self):
+        if len(self.userid)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"awx",
+                "body":{
+                    "userId":self.userid,
+                    "link":"http://qianketong.cd641dc781add4bc6b8ed119cee669cb7.cn-hangzhou.alicontainer.com/testingResult/79276e015f804122a0796c9551b5a2ad"
+                }
+            }
+            r = self.client.post('awx/api/health/dSyncReport',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["success"] == 'true':
+                    r.success()
+                else:
+                    r.failure(r.json()['message'])
+            else:
+                r.failure("HTTP状态码"+str(r.status_code))  
+
+    #报告列表
+    def ReportList(self):
+        if len(self.userid)>0:
+            num = random.randint(0,len(self.locust.memberinfo)-1)
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"awx",
+                "version":"222",
+                "body":{
+                    "userId":self.userid,
+                    "currentPage":""
+                }
+            }
+            r = self.client.post('awx/api/health/qReportList',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["success"] == 'true':
+                    r.success()
+                else:
+                    r.failure(r.json()['message'])
+            else:
+                r.failure("HTTP状态码"+str(r.status_code))  
+        
+
+
+    #成员报告列表
+    def UserReportList(self):
+        num = random.randint(0,len(self.locust.memberinfo)-1)
+        headers = {"Content-Type":"application/json"}
+        payload = {
+            "lang":"ZH_CN",
+            "token":"awx",
+            "version":"222",
+            "body":{
+                "memberToken": self.locust.memberinfo[num]["memberToken"],
+                "memberId":self.locust.memberinfo[num]["memberId"],
+                "currentPage":""
+            }
+        }
+        r = self.client.post('awx/api/health/qUserReportList',data = json.dumps(payload),headers = headers,catch_response = True)
+        if r.status_code == 200:
+            if r.json()["success"] == 'true':
+                r.success()
+            else:
+                r.failure(r.json()['message'])
+        else:
+            r.failure("HTTP状态码"+str(r.status_code))  
+
+    #用户列表
+    def UserList(self):
+        num = random.randint(0,len(self.locust.memberinfo)-1)
+        headers = {"Content-Type":"application/json"}
+        payload = {
+            "lang":"ZH_CN",
+            "token":"awx",
+            "version":"222",
+            "body":{
+                "memberToken": self.locust.memberinfo[num]["memberToken"],
+                "memberId":self.locust.memberinfo[num]["memberId"],
+                "currentPage":""
+            }
+        }
+        r = self.client.post('awx/api/health/qUserList',data = json.dumps(payload),headers = headers,catch_response = True)
+        if r.status_code == 200:
+            if r.json()["success"] == 'true':
+                r.success()
+                if len(r.json()["value"] )>0:
+                    self.userid = r.json()["value"][0]["userId"]
+            else:
+                r.failure(r.json()['message'])
+        else:
+            r.failure("HTTP状态码"+str(r.status_code))  
+
+    #添加成员
+    def AddUser(self):
+        num = random.randint(0,len(self.locust.memberinfo)-1)
+        headers = {"Content-Type":"application/json"}
+        payload = {
+            "lang":"ZH_CN",
+            "token":"awx",
+            "version":"222",
+            "body":{
+                "memberToken": self.locust.memberinfo[num]["memberToken"],
+                "memberId":self.locust.memberinfo[num]["memberId"],
+                "name":'用户'+str(self.yonghu),
+                "sex":1,
+                "birth":"1989-09-28"
+            }
+        }
+        self.yonghu = self.yonghu + 1
+        r = self.client.post('awx/api/health/dAddUser',data = json.dumps(payload),headers = headers,catch_response = True)
+        if r.status_code == 200:
+            if r.json()["success"] == 'true':
+                r.success()
+            else:
+                r.failure(r.json()['message'])
+        else:
+            r.failure("HTTP状态码"+str(r.status_code))    
+
+
+    #投票列表
+    def VoteList(self):
+        headers = {"Content-Type":"application/json"}
+        payload = {
+            "lang":"ZH_CN",
+            "token":"awx",
+            "version":"222",
+            "body":""
+        }
+        r = self.client.post('awx/api/vote/qVoteList',data = json.dumps(payload),headers = headers,catch_response = True)
+        if r.status_code == 200:
+            if r.json()["success"] == 'true':
+                r.success()
+            else:
+                r.failure(r.json()['message'])
+        else:
+            r.failure("HTTP状态码"+str(r.status_code))
+        
+
+
+    #首页_家人圈列表 _送礼物
+    def HomeGiftList(self):
+        num = random.randint(0,len(self.locust.memberinfo)-1)
+        headers = {"Content-Type":"application/json"}
+        payload = {
+            "lang":"ZH_CN",
+            "token":"awx",
+            "version":"222",
+            "body":{
+                "memberToken":self.locust.memberinfo[num]["memberToken"],
+            }
+        }
+        r = self.client.post('awx/api/home/qHomeGiftList',data = json.dumps(payload),headers = headers,catch_response = True)
+        if r.status_code == 200:
+            if r.json()["success"] == 'true':
+                r.success()
+            else:
+                r.failure(r.json()['message'])
+        else:
+            r.failure("HTTP状态码"+str(r.status_code))
+
+    #版本检测接口
     def CheckAccess(self):
         headers = {"Content-Type":"application/json"}
         payload = {
@@ -90,11 +429,10 @@ class MyTest(TaskSet):
         if r.status_code == 200:
             if r.json()["success"] == 'true':
                 r.success()
-                print(r.json())
             else:
                 r.failure(r.json()['message'])
         else:
-            r.failure("HTTP状态码"+r.status_code)
+            r.failure("HTTP状态码"+str(r.status_code))
         
     #系统礼物数据
     def Gift(self):
@@ -112,7 +450,7 @@ class MyTest(TaskSet):
             else:
                 r.failure(r.json()['message'])
         else:
-            r.failure("HTTP状态码"+r.status_code)
+            r.failure("HTTP状态码"+str(r.status_code))
 
     #轮播数据
     def Broadcast(self):
@@ -130,7 +468,7 @@ class MyTest(TaskSet):
             else:
                 r.failure(r.json()['message'])
         else:
-            r.failure("HTTP状态码"+r.status_code)
+            r.failure("HTTP状态码"+str(r.status_code))
 
     #获取用户基本信息
     def UserInfo(self):
@@ -153,7 +491,7 @@ class MyTest(TaskSet):
             else:
                 r.failure(r.json()['message'])
         else:
-            r.failure("HTTP状态码"+r.status_code)
+            r.failure("HTTP状态码"+str(r.status_code))
 
     #获取基础数据    
     def BaseData(self):
@@ -171,7 +509,7 @@ class MyTest(TaskSet):
             else:
                 r.failure(r.json()['message'])
         else:
-            r.failure("HTTP状态码"+r.status_code)
+            r.failure("HTTP状态码"+str(r.status_code))
 
 
     #发送验证码
@@ -190,7 +528,7 @@ class MyTest(TaskSet):
             else:
                 r.failure(r.json()['message'])
         else:
-            r.failure("HTTP状态码"+r.status_code)
+            r.failure("HTTP状态码"+str(r.status_code))
         
     def LogIn(self):
         headers = {"Content-Type":"application/json"}
@@ -225,14 +563,17 @@ class MyTest(TaskSet):
             else:
                 r.failure(r.json()['message'])
         else:
-            r.failure("HTTP状态码"+r.status_code)
+            r.failure("HTTP状态码"+str(r.status_code))
 
         self.shuoshuo = 1
         self.xiangce = 1
         self.pinglun = 1
         self.dongtai = {}
+        self.userid = ''
         self.dongtaixiangce={}
-
+        self.yonghu = 1
+        self.myshowhome = ''
+        self.myshowpotho = ''
 
     #创建说说
     def HomePublish(self):
@@ -264,7 +605,7 @@ class MyTest(TaskSet):
             else:
                 r.failure(r.json()['message'])
         else:
-            r.failure("HTTP状态码"+r.status_code)
+            r.failure("HTTP状态码"+str(r.status_code))
 
         
 
@@ -301,7 +642,7 @@ class MyTest(TaskSet):
             else:
                 r.failure(r.json()['message'])
         else:
-            r.failure("HTTP状态码"+r.status_code)
+            r.failure("HTTP状态码"+str(r.status_code))
 
     #家人圈列表
     def HomeList(self):
@@ -326,7 +667,7 @@ class MyTest(TaskSet):
             else:
                 r.failure(r.json()['message'])
         else:
-            r.failure("HTTP状态码"+r.status_code)
+            r.failure("HTTP状态码"+str(r.status_code))
     
     #点赞
     def HomeParise(self):
@@ -352,7 +693,7 @@ class MyTest(TaskSet):
                 else:
                     r.failure(r.json()['message'])
             else:
-                r.failure("HTTP状态码"+r.status_code)
+                r.failure("HTTP状态码"+str(r.status_code))
         
     #评论    
     def PhotoComment(self):
@@ -380,11 +721,11 @@ class MyTest(TaskSet):
                 else:
                     r.failure(r.json()['message'])
             else:
-                r.failure("HTTP状态码"+r.status_code)
+                r.failure("HTTP状态码"+str(r.status_code))
         
 
 class BestTestIndexUser(HttpLocust):
-    host = "https://api.i5show.cn/" 
+    host = "https://apit.lutuapp.com/" 
     
     phonedata =  GetExcl.read_excl().get_excl_data()
     phones = []
