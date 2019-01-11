@@ -1,6 +1,24 @@
-from locust import HttpLocust, Locust, TaskSequence, task,TaskSet,seq_task
+from locust import HttpLocust, TaskSequence, task,TaskSet,seq_task
  
+class ForumPage(TaskSet):
+    @seq_task(1)
+    @task(1)
+    def read_thread(self):
+        print('444')
+
+    @seq_task(2)
+    @task(1)
+    def new_thread(self):
+        print('555')
+
+    @seq_task(3)
+    @task(1)
+    def stop(self):
+        self.interrupt()
+
 class MyTaskSequence(TaskSequence):
+    # tasks = {ForumPage:1}
+
     @seq_task(1)
     @task(1)
     def first_task(self):
@@ -11,20 +29,15 @@ class MyTaskSequence(TaskSequence):
     def second_task(self):
         print('222')
 
- 
     @seq_task(3)
-    @task(1)
+    @task(2)
     def third_task(self):
         print('333')
         
-
-
-
 class BestTestIndexUser(HttpLocust):
     host = "https://www.baidu.com/" 
 
     task_set = MyTaskSequence 
-
 
     min_wait = 1000 
     max_wait = 1000
