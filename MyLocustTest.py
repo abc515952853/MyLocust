@@ -735,7 +735,7 @@ class BestTestIndexUser(HttpLocust):
     task_set = MyTest 
 
 
-    min_wait = 5000
+    min_wait = 10000
     max_wait = 10000
 
 if __name__ == "__main__":
