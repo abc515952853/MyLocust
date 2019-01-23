@@ -1,6 +1,6 @@
 from locust import HttpLocust, TaskSequence, task,TaskSet,seq_task
  
-class ForumPage(TaskSet):
+class ForumPage(TaskSequence):
     @seq_task(1)
     @task(1)
     def read_thread(self):
@@ -17,12 +17,13 @@ class ForumPage(TaskSet):
         self.interrupt()
 
 class MyTaskSequence(TaskSequence):
-    # tasks = {ForumPage:1}
+    tasks = {ForumPage:1}
 
     @seq_task(1)
     @task(1)
     def first_task(self):
-        print('111')
+        for i in range(10):
+            self.client.get("/blog?id=%i" % i)
 
     @seq_task(2)
     @task(1)
@@ -44,4 +45,4 @@ class BestTestIndexUser(HttpLocust):
 
 if __name__ == "__main__":
     import os
-    os.system("locust -f MyLocusttry")
+    os.system("locust -f MyLocusttry.py --csv=example --no-web -t1m")

@@ -668,7 +668,7 @@ class MyTest(TaskSet):
                 r.failure(r.json()['message'])
         else:
             r.failure("HTTP状态码"+str(r.status_code))
-    
+             
     #点赞
     def HomeParise(self):
         if self.dongtai:
