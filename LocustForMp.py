@@ -16,7 +16,9 @@ class MyTest(TaskSequence):
         self.userid = ''
         self.yonghu = 1
         self.ncdw = 1
+        self.sqnr = 1
         self.activityphontophontoid = ''
+        self.activityid = ''
         #登录
         self.LogIn()
 
@@ -123,23 +125,109 @@ class MyTest(TaskSequence):
 
     # ##########################################################活动###########################################################
 
-    #活动列表
-    @seq_task(2)
-    @task(1)
-    def test_ActivityList(self):
-        self.ActivityList()
+    # #活动列表
+    # @seq_task(2)
+    # @task(1)
+    # def test_ActivityList(self):
+    #     self.ActivityList()
 
-    #活动详情-慢拍列表
-    @seq_task(3)
-    @task(1)
-    def test_ActivityPhotos(self):
-        self.ActivityPhotos()
+    # #活动详情-慢拍列表
+    # @seq_task(3)
+    # @task(1)
+    # def test_ActivityPhotos(self):
+    #     self.ActivityPhotos()
 
-    #活动详情-慢拍投票
-    @seq_task(4)
-    @task(1)
-    def test_PhotoVote(self):
-        self.PhotoVote()
+    # #活动详情-慢拍投票
+    # @seq_task(4)
+    # @task(1)
+    # def test_PhotoVote(self):
+    #     self.PhotoVote()
+
+    # #活动详情-h5
+    # @seq_task(3)
+    # @task(1)
+    # def test_ActivityDetailH5(self):
+    #     self.ActivityDetailH5()
+
+    # #活动慢拍详情-h5
+    # @seq_task(3)
+    # @task(1)
+    # def test_ActivityPhotosH5(self):
+    #     self.ActivityPhotosH5()
+
+    # #活动列表
+    # @task(1)
+    # def test_Apply(self):
+    #     self.Apply()
+
+    # ##########################################################相册###########################################################
+    
+
+    def Apply(self):
+        headers = {"Content-Type":"application/json"}
+        payload = {
+            "lang":"ZH_CN",
+            "token":"slowshot",
+            "version":"1.0.0",
+            "body":{
+                "memberToken":self.memberToken,
+                "memberId":self.memberid,
+                "content":"测试申请内容"+str(self.sqnr),
+                "mobile":self.phone
+            }
+        }
+        r = self.client.post('api/activity/dApply',data = json.dumps(payload),headers = headers,catch_response = True)
+        if r.status_code == 200:
+            if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                r.success()
+                self.sqnr = self.sqnr + 1
+            else:
+                r.failure(r.json()['message'])
+        else:
+            r.failure("HTTP状态码"+str(r.status_code))
+
+    def ActivityPhotosH5(self):
+        if len(self.activityid) > 0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "activityId":self.activityid,
+                }
+            }
+            r = self.client.post('api/activity/qPhotosH5',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                else:
+                    r.failure(r.json()['message'])
+            else:
+                r.failure("HTTP状态码"+str(r.status_code))
+            
+    #活动详情-h5
+    def ActivityDetailH5(self):
+        if len(self.activityid) > 0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "memberToken":self.memberToken,
+                    "memberId":self.memberid,
+                    "activityId":self.activityid,
+                }
+            }
+            r = self.client.post('api/activity/qDetailH5',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                else:
+                    r.failure(r.json()['message'])
+            else:
+                r.failure("HTTP状态码"+str(r.status_code))
 
     #活动详情-慢拍投票
     def PhotoVote(self):
@@ -160,7 +248,6 @@ class MyTest(TaskSequence):
             if r.status_code == 200:
                 if r.json()["code"] == '200' and r.json()["message"] == '成功': 
                     r.success()
-                    print(r.json())
                 else:
                     r.failure(r.json()['message'])
             else:
@@ -168,32 +255,33 @@ class MyTest(TaskSequence):
 
     #活动详情-慢拍列表
     def ActivityPhotos(self):
-        headers = {"Content-Type":"application/json"}
-        payload = {
-            "lang":"ZH_CN",
-            "token":"slowshot",
-            "version":"1.0.0",
-            "body":{
-                "memberToken":self.memberToken,
-                "memberId":self.memberid,
-                "activityId":self.activityid,
-                "search":"",
-                "currentPage":""
+        if len(self.activityid) > 0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "memberToken":self.memberToken,
+                    "memberId":self.memberid,
+                    "activityId":self.activityid,
+                    "search":"",
+                    "currentPage":""
+                }
             }
-        }
-        r = self.client.post('api/activity/qPhotos',data = json.dumps(payload),headers = headers,catch_response = True)
-        if r.status_code == 200:
-            if r.json()["code"] == '200' and r.json()["message"] == '成功': 
-                r.success()
-                self.locust.activityphonto=r.json()["value"]
-                if len(self.locust.activityphonto)>0:
-                    num = random.randint(0,len(self.locust.activityphonto)-1)
-                    self.activityphontoactivityid = self.locust.activityphonto[num]["activityId"]
-                    self.activityphontophontoid = self.locust.activityphonto[num]["photoId"]
+            r = self.client.post('api/activity/qPhotos',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                    self.locust.activityphonto=r.json()["value"]
+                    if len(self.locust.activityphonto)>0:
+                        num = random.randint(0,len(self.locust.activityphonto)-1)
+                        self.activityphontoactivityid = self.locust.activityphonto[num]["activityId"]
+                        self.activityphontophontoid = self.locust.activityphonto[num]["photoId"]
+                else:
+                    r.failure(r.json()['message'])
             else:
-                r.failure(r.json()['message'])
-        else:
-            r.failure("HTTP状态码"+str(r.status_code))
+                r.failure("HTTP状态码"+str(r.status_code))
 
     #活动列表
     def ActivityList(self):
