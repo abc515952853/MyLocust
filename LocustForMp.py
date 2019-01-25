@@ -17,66 +17,72 @@ class MyTest(TaskSequence):
         self.yonghu = 1
         self.ncdw = 1
         self.sqnr = 1
+        self.pinglun = 1
         self.activityphontophontoid = ''
         self.activityid = ''
+        self.photolistId = ''
+        self.photoid = ''
+        self.manpai = 1
+        self.delphotoimgphotoid = ''
+        self.delphotoimgvalue = {}
         #登录
         self.LogIn()
 
-    # ##########################################################基础接口###########################################################
-    # #验证验证码
-    # @task(1)
-    # def test_CheckCaptcha(self):
-    #     self.CheckCaptcha()
+    ##########################################################基础接口###########################################################
+    #验证验证码
+    @task(1)
+    def test_CheckCaptcha(self):
+        self.CheckCaptcha()
 
-    # #获取基础数据    
-    # @task(1)
-    # def test_BaseData(self):
-    #     self.BaseData()
-
-
-    # #慢拍号列表
-    # @task(1)
-    # def test_Number(self):
-    #     self.Number()
-
-    # #获取用户基本信息
-    # @task(1)
-    # def test_UserInfo(self):
-    #     self.UserInfo()
-
-    # #系统礼物数据接口
-    # @task(1)
-    # def test_Gift(self):
-    #     self.Gift()
-
-    # #版本检测接口
-    # @task(1)
-    # def test_CheckAccess(self):
-    #     self.CheckAccess()
-
-    # #查询闪新闻-慢动态的消息数据
-    # @task(1)
-    # def test_Message(self):
-    #     self.Message()
+    #获取基础数据    
+    @task(1)
+    def test_BaseData(self):
+        self.BaseData()
 
 
-    # #删除消息数据（红点/黄点）
-    # @task(1)
-    # def test_CancelMessage(self):
-    #     self.CancelMessage()
+    #慢拍号列表
+    @task(1)
+    def test_Number(self):
+        self.Number()
 
-    # ##########################################################健康检测###########################################################
-    # #添加成员
-    # @seq_task(1)
-    # @task(1)
-    # def test_AddUser(self):
-    #     self.AddUser()
+    #获取用户基本信息
+    @task(1)
+    def test_UserInfo(self):
+        self.UserInfo()
 
-    # #选择成员列表
-    # @seq_task(2)
-    # @task(1)
-    # def test_UserList(self):
-    #     self.UserList()
+    #系统礼物数据接口
+    @task(1)
+    def test_Gift(self):
+        self.Gift()
+
+    #版本检测接口
+    @task(1)
+    def test_CheckAccess(self):
+        self.CheckAccess()
+
+    #查询闪新闻-慢动态的消息数据
+    @task(1)
+    def test_Message(self):
+        self.Message()
+
+
+    #删除消息数据（红点/黄点）
+    @task(1)
+    def test_CancelMessage(self):
+        self.CancelMessage()
+
+    ##########################################################健康检测###########################################################
+    #添加成员
+    @seq_task(1)
+    @task(1)
+    def test_AddUser(self):
+        self.AddUser()
+
+    #选择成员列表
+    @seq_task(2)
+    @task(1)
+    def test_UserList(self):
+        self.UserList()
 
 
     # #同步检测报告
@@ -85,86 +91,464 @@ class MyTest(TaskSequence):
     # def test_SyncReport(self):
     #     self.SyncReport()
 
-    # #报告列表
-    # @seq_task(4)
-    # @task(1)
-    # def test_ReportList(self):
-    #     self.ReportList()
+    #报告列表
+    @seq_task(4)
+    @task(1)
+    def test_ReportList(self):
+        self.ReportList()
 
-    # #成员告列表
-    # @seq_task(3)
-    # @task(1)
-    # def test_UserReportList(self):
-    #     self.UserReportList()
+    #成员告列表
+    @seq_task(3)
+    @task(1)
+    def test_UserReportList(self):
+        self.UserReportList()
 
-    # ##########################################################个人中心###########################################################
-    # #我的慢拍
-    # @task(1)
-    # def test_MyPhoto(self):
-    #     self.MyPhoto()
+    ##########################################################个人中心###########################################################
+    #我的慢拍
+    @task(1)
+    def test_MyPhoto(self):
+        self.MyPhoto()
 
-    # #我的更多慢拍
-    # @task(1)
-    # def test_MyPhotoMore(self):
-    #     self.MyPhotoMore()
+    #我的更多慢拍
+    @task(1)
+    def test_MyPhotoMore(self):
+        self.MyPhotoMore()
 
-    # #慢拍和粉丝统计
-    # @task(1)
-    # def test_MyPhotoStatistics(self):
-    #     self.MyPhotoStatistics()
+    #慢拍和粉丝统计
+    @task(1)
+    def test_MyPhotoStatistics(self):
+        self.MyPhotoStatistics()
 
-    # #消息列表
-    # @task(1)
-    # def test_MessageList(self):
-    #     self.MessageList()  
+    #消息列表
+    @task(1)
+    def test_MessageList(self):
+        self.MessageList()  
 
-    # #修改我的资料
-    # @task(1)
-    # def test_ModifyMyInfo(self):
-    #     self.ModifyMyInfo()  
+    #修改我的资料
+    @task(1)
+    def test_ModifyMyInfo(self):
+        self.ModifyMyInfo()  
 
-    # ##########################################################活动###########################################################
+    ##########################################################活动###########################################################
 
-    # #活动列表
-    # @seq_task(2)
-    # @task(1)
-    # def test_ActivityList(self):
-    #     self.ActivityList()
+    #活动列表
+    @seq_task(2)
+    @task(1)
+    def test_ActivityList(self):
+        self.ActivityList()
 
-    # #活动详情-慢拍列表
-    # @seq_task(3)
-    # @task(1)
-    # def test_ActivityPhotos(self):
-    #     self.ActivityPhotos()
+    #活动详情-慢拍列表
+    @seq_task(3)
+    @task(1)
+    def test_ActivityPhotos(self):
+        self.ActivityPhotos()
 
-    # #活动详情-慢拍投票
-    # @seq_task(4)
-    # @task(1)
-    # def test_PhotoVote(self):
-    #     self.PhotoVote()
+    #活动详情-慢拍投票
+    @seq_task(4)
+    @task(1)
+    def test_PhotoVote(self):
+        self.PhotoVote()
 
-    # #活动详情-h5
-    # @seq_task(3)
-    # @task(1)
-    # def test_ActivityDetailH5(self):
-    #     self.ActivityDetailH5()
+    #活动详情-h5
+    @seq_task(3)
+    @task(1)
+    def test_ActivityDetailH5(self):
+        self.ActivityDetailH5()
 
-    # #活动慢拍详情-h5
-    # @seq_task(3)
-    # @task(1)
-    # def test_ActivityPhotosH5(self):
-    #     self.ActivityPhotosH5()
+    #活动慢拍详情-h5
+    @seq_task(3)
+    @task(1)
+    def test_ActivityPhotosH5(self):
+        self.ActivityPhotosH5()
 
-    # #活动列表
-    # @task(1)
-    # def test_Apply(self):
-    #     self.Apply()
+    #活动列表
+    @task(1)
+    def test_Apply(self):
+        self.Apply()
 
-    # ##########################################################相册###########################################################
+    ##########################################################相册###########################################################
     #首页-慢拍列表
     @task(1)
     def test_PhotoList(self):
         self.PhotoList()
+
+    #慢拍详情
+    @task(1)
+    def test_PhotoDetail(self):
+        self.PhotoDetail()
+
+    #慢拍的图片列表
+    @task(2)
+    def test_PhotoImgs(self):
+        self.PhotoImgs()
+
+    #点赞
+    @task(1)
+    def test_PhotoParise(self):
+        self.PhotoParise()
+
+    #评论
+    @task(1)
+    def test_PhotoComment(self):
+        self.PhotoComment()
+
+    #评论列表
+    @task(1)
+    def test_CommentList(self):
+        self.CommentList()
+
+    #记录用户浏览的慢拍
+    @task(1)
+    def test_Browse(self):
+        self.Browse()
+
+    #创建慢拍
+    @task(2)
+    def test_CreatePhoto(self):
+        self.CreatePhoto()
+    
+    #删除慢拍
+    @task(1)
+    def test_DelPhoto(self):
+        self.DelPhoto()
+
+    #删除慢拍图片
+    @task(1)
+    def test_DelPhotoImg(self):
+        self.DelPhotoImg()
+
+    #修改图片
+    @task(1)
+    def test_ModifyCover(self):
+        self.ModifyCover()
+
+    #修改图片标题
+    @task(1)
+    def test_ModifyImgTitle(self):
+        self.ModifyImgTitle()
+
+
+    # ##########################################################实现函数###########################################################
+    #修改图片标题
+    def ModifyImgTitle(self):
+        if len(self.photolistId)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "photoId":self.photolistId,
+                    "memberToken":self.memberToken,
+                    "memberId":self.memberid,
+                    "img":self.delphotoimgvalue
+                }
+            }
+            r = self.client.post('api/photo/dModifyImgTitle',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                    print(r.json())
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
+            else:
+                r.failure("HTTP状态码"+str(r.status_code))
+
+    #修改图片
+    def ModifyCover(self):
+        if len(self.photolistId)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "coverSecond":"第二句话"+str(self.manpai),
+                    "photoId":self.photolistId,
+                    "coverThree":"第三句话"+str(self.manpai),
+                    "province":"浙江",
+                    "deviceType":"iPhone 6s",
+                    "title":"一个标题"+str(self.manpai),
+                    "memberId":self.memberid,
+                    "city":"杭州",
+                    "cover":"test/i5show/user/album/4/28489012397.jpg",
+                    "coverFirst":"第一句话"+str(self.manpai),
+                    "memberToken":self.memberToken,
+                }
+            }
+            r = self.client.post('api/photo/dModifyCover',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
+            else:
+                r.failure("HTTP状态码"+str(r.status_code))
+        
+    #删除慢拍图片
+    def DelPhotoImg(self):
+        if len(self.delphotoimgphotoid)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "photoId":self.delphotoimgphotoid,
+                    "memberToken":self.memberToken,
+                    "memberId":self.memberid,
+                    "img":self.delphotoimgvalue
+                }
+            }
+            r = self.client.post('api/photo/dDelImg',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
+            else:
+                r.failure("HTTP状态码"+str(r.status_code))
+
+    #删除慢拍
+    def DelPhoto(self):
+        if len(self.photoid)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "memberToken":self.memberToken, 
+                    "memberId":self.memberid,
+                    "photoId":self.photoid
+                }
+            }
+            r = self.client.post('api/photo/dDelPhoto',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
+            else:
+                r.failure("HTTP状态码"+str(r.status_code))
+
+    #创建慢拍
+    def CreatePhoto(self):
+        if len(self.memberToken)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "coverSecond":"第二句话"+str(self.manpai),
+                    "photoId":"",
+                    "coverThree":"第三句话"+str(self.manpai),
+                    "province":"浙江",
+                    "link":"",
+                    "deviceType":"iPhone 6s",
+                    "title":"一个标题"+str(self.manpai),
+                    "memberId":self.memberid,
+                    "city":"杭州",
+                    "cover":"test/i5show/user/album/4/28489012397.jpg",
+                    "coverFirst":"第一句话"+str(self.manpai),
+                    "memberToken":self.memberToken,
+                    "imgs":[
+                        {
+                            "img":"test/i5show/user/album/4/290440756318.jpg",
+                            "title":"",
+                            "width":"100",
+                            "height":"102",
+                            "deviceType":"iPhone 6s"
+                        },
+                        {
+                            "img":"test/i5show/user/album/4/28489012397.jpg",
+                            "title":"",
+                            "width":"100",
+                            "height":"102",
+                            "deviceType":"iPhone 6s"
+                        },
+                        {
+                            "img":"test/i5show/user/album/4/279365590855.jpg",
+                            "title":"",
+                            "width":"100",
+                            "height":"102",
+                            "deviceType":"iPhone 6s"
+                        },
+                        {
+                            "img":"test/i5show/user/album/4/273376967418.jpg",
+                            "title":"",
+                            "width":"100",
+                            "height":"102",
+                            "deviceType":"iPhone 6s"
+                        },
+                        {
+                            "img":"test/i5show/user/album/4/263062404296W.jpg",
+                            "title":"",
+                            "width":"100",
+                            "height":"102",
+                            "deviceType":"iPhone 6s"
+                        }
+                    ]
+                }
+            }
+            r = self.client.post('api/photo/dCreatePhoto',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                    self.manpai = self.manpai + 1
+                    self.photoid = r.json()["value"]["photoId"]
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
+            else:
+                r.failure("HTTP状态码"+str(r.status_code))
+            
+
+
+    #记录用户浏览的慢拍
+    def Browse(self):
+        if len(self.photolistId)>0:
+            photolistIds = []
+            photolistIds.append(self.photolistId)
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "photoIds":self.photolistId,
+                    "memberId":self.memberid
+                }
+            }
+            r = self.client.post('api/photo/dBrowse',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success() 
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
+            else:
+                r.failure("HTTP状态码"+str(r.status_code))
+
+    #评论列表
+    def CommentList(self):
+        if len(self.photolistId)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "memberToken":self.memberToken,
+                    "currentPage":"1",
+                    "photoId":self.photolistId
+                }
+            }
+            r = self.client.post('api/photo/qCommentList',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success() 
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
+            else:
+                r.failure("HTTP状态码"+str(r.status_code))
+        
+    #评论
+    def PhotoComment(self):
+        if len(self.photolistId)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "memberToken":self.memberToken,
+                    "memberId":self.memberid,
+                    "photoId":self.photolistId,
+                    "comments":"评论"+str(self.pinglun)
+                }
+            }
+            r = self.client.post('api/photo/dComment',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success() 
+                    self.pinglun = self.pinglun + 1
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
+            else:
+                r.failure("HTTP状态码"+str(r.status_code))
+
+    #点赞
+    def PhotoParise(self):
+        if len(self.photolistId)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "memberToken":self.memberToken,
+                    "memberId":self.memberid,
+                    "photoId":self.photolistId,
+                }
+            }
+            r = self.client.post('api/photo/dParise',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
+            else:
+                r.failure("HTTP状态码"+str(r.status_code))
+    
+    #慢拍的图片列表
+    def PhotoImgs(self):
+        if len(self.photolistId)>0:
+            photolistId = self.photolistId
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "memberToken":self.memberToken,
+                    "currentPage":"",
+                    "photoId":photolistId
+                }
+            }
+            r = self.client.post('api/photo/qImgs',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                    self.delphotoimgphotoid = photolistId
+                    self.delphotoimgvalue= r.json()["value"][0]
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
+            else:
+                r.failure("HTTP状态码"+str(r.status_code))
+
+    #慢拍详情   
+    def PhotoDetail(self):
+        if len(self.photolistId)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "memberToken":self.memberToken,
+                    "memberId":self.memberid,
+                    "photoId":self.photolistId,
+                }
+            }
+            r = self.client.post('api/photo/qDetail',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
+            else:
+                r.failure("HTTP状态码"+str(r.status_code))
+
 
     #首页-慢拍列表
     def PhotoList(self):
@@ -185,7 +569,9 @@ class MyTest(TaskSequence):
             if r.status_code == 200:
                 if r.json()["code"] == '200' and r.json()["message"] == '成功': 
                     r.success()
-                    print(r.json())
+                    self.locust.photo=r.json()["value"]  
+                    num = random.randint(0,len(self.locust.photo)-1)
+                    self.photolistId = self.locust.photo[num]["photoId"]
                 else:
                     r.failure(r.json()['code']+','+r.json()['message'])
             else:
@@ -714,7 +1100,9 @@ class MyTest(TaskSequence):
             "lang":"ZH_CN",
             "token":"slowshot",
             "version":"1.0.0",
-            "body":""
+            "body":{
+                "type":"family"
+            }
         }
         r = self.client.post('api/comm/qBaseData',data = json.dumps(payload),headers = headers,catch_response = True)
         if r.status_code == 200:
@@ -798,6 +1186,7 @@ class BestTestIndexUser(HttpLocust):
     user = []
     activity = []
     activityphonto = []
+    photo = []
     for i in range(len(data)):                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
         userdatas.append(data[i])
 
