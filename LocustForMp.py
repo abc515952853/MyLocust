@@ -161,30 +161,59 @@ class MyTest(TaskSequence):
     #     self.Apply()
 
     # ##########################################################相册###########################################################
-    
+    #首页-慢拍列表
+    @task(1)
+    def test_PhotoList(self):
+        self.PhotoList()
 
-    def Apply(self):
-        headers = {"Content-Type":"application/json"}
-        payload = {
-            "lang":"ZH_CN",
-            "token":"slowshot",
-            "version":"1.0.0",
-            "body":{
-                "memberToken":self.memberToken,
-                "memberId":self.memberid,
-                "content":"测试申请内容"+str(self.sqnr),
-                "mobile":self.phone
+    #首页-慢拍列表
+    def PhotoList(self):
+        if len(self.memberToken)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "memberToken":self.memberToken,
+                    "memberId":self.memberid,
+                    "city":"杭州市",
+                    "currentPage":""
+                }
             }
-        }
-        r = self.client.post('api/activity/dApply',data = json.dumps(payload),headers = headers,catch_response = True)
-        if r.status_code == 200:
-            if r.json()["code"] == '200' and r.json()["message"] == '成功': 
-                r.success()
-                self.sqnr = self.sqnr + 1
+            r = self.client.post('api/photo/qList',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                    print(r.json())
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
             else:
-                r.failure(r.json()['message'])
-        else:
-            r.failure("HTTP状态码"+str(r.status_code))
+                r.failure("HTTP状态码"+str(r.status_code))
+    
+    def Apply(self):
+        if len(self.memberToken)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "memberToken":self.memberToken,
+                    "memberId":self.memberid,
+                    "content":"测试申请内容"+str(self.sqnr),
+                    "mobile":self.phone
+                }
+            }
+            r = self.client.post('api/activity/dApply',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                    self.sqnr = self.sqnr + 1
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
+            else:
+                r.failure("HTTP状态码"+str(r.status_code))
 
     def ActivityPhotosH5(self):
         if len(self.activityid) > 0:
@@ -202,7 +231,7 @@ class MyTest(TaskSequence):
                 if r.json()["code"] == '200' and r.json()["message"] == '成功': 
                     r.success()
                 else:
-                    r.failure(r.json()['message'])
+                    r.failure(r.json()['code']+','+r.json()['message'])
             else:
                 r.failure("HTTP状态码"+str(r.status_code))
             
@@ -225,7 +254,7 @@ class MyTest(TaskSequence):
                 if r.json()["code"] == '200' and r.json()["message"] == '成功': 
                     r.success()
                 else:
-                    r.failure(r.json()['message'])
+                    r.failure(r.json()['code']+','+r.json()['message'])
             else:
                 r.failure("HTTP状态码"+str(r.status_code))
 
@@ -249,7 +278,7 @@ class MyTest(TaskSequence):
                 if r.json()["code"] == '200' and r.json()["message"] == '成功': 
                     r.success()
                 else:
-                    r.failure(r.json()['message'])
+                    r.failure(r.json()['code']+','+r.json()['message'])
             else:
                 r.failure("HTTP状态码"+str(r.status_code))
 
@@ -279,308 +308,321 @@ class MyTest(TaskSequence):
                         self.activityphontoactivityid = self.locust.activityphonto[num]["activityId"]
                         self.activityphontophontoid = self.locust.activityphonto[num]["photoId"]
                 else:
-                    r.failure(r.json()['message'])
+                    r.failure(r.json()['code']+','+r.json()['message'])
             else:
                 r.failure("HTTP状态码"+str(r.status_code))
 
     #活动列表
     def ActivityList(self):
-        headers = {"Content-Type":"application/json"}
-        payload = {
-            "lang":"ZH_CN",
-            "token":"slowshot",
-            "version":"1.0.0",
-            "body":{
-                "accessToken":self.locust.accessToken,
-                "memberToken":self.memberToken,
-                "memberId":self.memberid,
-                "search":"",
-                "currentPage":""
+        if len(self.memberToken)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "accessToken":self.locust.accessToken,
+                    "memberToken":self.memberToken,
+                    "memberId":self.memberid,
+                    "search":"",
+                    "currentPage":""
+                }
             }
-        }
-        r = self.client.post('api/activity/qList',data = json.dumps(payload),headers = headers,catch_response = True)
-        if r.status_code == 200:
-            if r.json()["code"] == '200' and r.json()["message"] == '成功': 
-                r.success()
-                self.locust.activity=r.json()["value"]  
-                num = random.randint(0,len(self.locust.activity)-1)
-                self.activityid = self.locust.activity[num]["activityId"]
+            r = self.client.post('api/activity/qList',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                    self.locust.activity=r.json()["value"]  
+                    num = random.randint(0,len(self.locust.activity)-1)
+                    self.activityid = self.locust.activity[num]["activityId"]
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
             else:
-                r.failure(r.json()['message'])
-        else:
-            r.failure("HTTP状态码"+str(r.status_code))
+                r.failure("HTTP状态码"+str(r.status_code))
 
     #修改我的资料
     def ModifyMyInfo(self):
-        headers = {"Content-Type":"application/json"}
-        payload = {
-            "lang":"ZH_CN",
-            "token":"slowshot",
-            "version":"1.0.0",
-            "body":{
-                "memberToken":self.memberToken,
-                "memberId":self.memberid,
-                "avatar":"2",
-                "nickName":"昵称"+str(self.ncdw),
-                "family":"地位"+str(self.ncdw),
-                "ymToken":"751cecb07399dfc426d57903b299997cc2405abd06e8338fb6b4247762b449f1"
+        if len(self.memberToken)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "memberToken":self.memberToken,
+                    "memberId":self.memberid,
+                    "avatar":"2",
+                    "nickName":"昵称"+str(self.ncdw),
+                    "family":"地位"+str(self.ncdw),
+                    "ymToken":"751cecb07399dfc426d57903b299997cc2405abd06e8338fb6b4247762b449f1"
+                }
             }
-        }
-        r = self.client.post('api/member/dModifyMyInfo',data = json.dumps(payload),headers = headers,catch_response = True)
-        if r.status_code == 200:
-            if r.json()["code"] == '200' and r.json()["message"] == '成功': 
-                r.success()
-                self.ncdw = self.ncdw +1
+            r = self.client.post('api/member/dModifyMyInfo',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                    self.ncdw = self.ncdw +1
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
             else:
-                r.failure(r.json()['message'])
-        else:
-            r.failure("HTTP状态码"+str(r.status_code))
+                r.failure("HTTP状态码"+str(r.status_code))
 
     #消息列表
     def MessageList(self):
-        headers = {"Content-Type":"application/json"}
-        payload = {
-            "lang":"ZH_CN",
-            "token":"slowshot",
-            "version":"1.0.0",
-            "body":{
-                "memberToken":self.memberToken,
-                "memberId":self.memberid,
-                "type":"2"
+        if len(self.memberToken)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "memberToken":self.memberToken,
+                    "memberId":self.memberid,
+                    "type":"2"
+                }
             }
-        }
-        r = self.client.post('api/member/qMessage',data = json.dumps(payload),headers = headers,catch_response = True)
-        if r.status_code == 200:
-            if r.json()["code"] == '200' and r.json()["message"] == '成功': 
-                r.success()
+            r = self.client.post('api/member/qMessage',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
             else:
-                r.failure(r.json()['message'])
-        else:
-            r.failure("HTTP状态码"+str(r.status_code))
+                r.failure("HTTP状态码"+str(r.status_code))
 
     #慢拍和粉丝统计
     def MyPhotoStatistics(self):
-        headers = {"Content-Type":"application/json"}
-        payload = {
-            "lang":"ZH_CN",
-            "token":"slowshot",
-            "version":"1.0.0",
-            "body":{
-                "memberToken":self.memberToken,
-                "memberId":self.memberid,
-                "currentPage":""
+        if len(self.memberToken)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "memberToken":self.memberToken,
+                    "memberId":self.memberid,
+                    "currentPage":""
+                }
             }
-        }
-        r = self.client.post('api/member/qMyPhotoStatistics',data = json.dumps(payload),headers = headers,catch_response = True)
-        if r.status_code == 200:
-            if r.json()["code"] == '200' and r.json()["message"] == '成功': 
-                r.success()
+            r = self.client.post('api/member/qMyPhotoStatistics',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
             else:
-                r.failure(r.json()['message'])
-        else:
-            r.failure("HTTP状态码"+str(r.status_code))
+                r.failure("HTTP状态码"+str(r.status_code))
     
 
 
     #我的更多慢拍
     def MyPhotoMore(self):
-        headers = {"Content-Type":"application/json"}
-        payload = {
-            "lang":"ZH_CN",
-            "token":"slowshot",
-            "version":"1.0.0",
-            "body":{
-                "memberToken":self.memberToken,
-                "memberId":self.memberid,
-                "currentPage":""
+        if len(self.memberToken)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "memberToken":self.memberToken,
+                    "memberId":self.memberid,
+                    "currentPage":""
+                }
             }
-        }
-        r = self.client.post('api/member/qMyPhotoMore',data = json.dumps(payload),headers = headers,catch_response = True)
-        if r.status_code == 200:
-            if r.json()["code"] == '200' and r.json()["message"] == '成功': 
-                r.success()
+            r = self.client.post('api/member/qMyPhotoMore',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
             else:
-                r.failure(r.json()['message'])
-        else:
-            r.failure("HTTP状态码"+str(r.status_code))
+                r.failure("HTTP状态码"+str(r.status_code))
 
     #我的慢拍
     def MyPhoto(self):
-        headers = {"Content-Type":"application/json"}
-        payload = {
-            "lang":"ZH_CN",
-            "token":"slowshot",
-            "version":"1.0.0",
-            "body":{
-                "memberToken":self.memberToken,
-                "memberId":self.memberid,
+        if len(self.memberToken)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "memberToken":self.memberToken,
+                    "memberId":self.memberid,
+                }
             }
-        }
-        r = self.client.post('api/member/qMyPhoto',data = json.dumps(payload),headers = headers,catch_response = True)
-        if r.status_code == 200:
-            if r.json()["code"] == '200' and r.json()["message"] == '成功': 
-                r.success()
+            r = self.client.post('api/member/qMyPhoto',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
             else:
-                r.failure(r.json()['message'])
-        else:
-            r.failure("HTTP状态码"+str(r.status_code))
+                r.failure("HTTP状态码"+str(r.status_code))
         
 
     #成员告列表
     def UserReportList(self):
-        headers = {"Content-Type":"application/json"}
-        payload = {
-            "lang":"ZH_CN",
-            "token":"slowshot",
-            "version":"1.0.0",
-            "body":{
-                "memberToken":self.memberToken,
-                "memberId":self.memberid,
-                "currentPage":""
+        if len(self.memberToken)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "memberToken":self.memberToken,
+                    "memberId":self.memberid,
+                    "currentPage":""
+                }
             }
-        }
-        r = self.client.post('api/health/qUserReportList',data = json.dumps(payload),headers = headers,catch_response = True)
-        if r.status_code == 200:
-            if r.json()["code"] == '200' and r.json()["message"] == '成功': 
-                r.success()
+            r = self.client.post('api/health/qUserReportList',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
             else:
-                r.failure(r.json()['message'])
-        else:
-            r.failure("HTTP状态码"+str(r.status_code))
+                r.failure("HTTP状态码"+str(r.status_code))
 
 
     #报告列表
     def ReportList(self):
-        headers = {"Content-Type":"application/json"}
-        payload = {
-            "lang":"ZH_CN",
-            "token":"slowshot",
-            "version":"1.0.0",
-            "body":{
-                "userId":self.userid,
-                "currentPage":""
+        if len(self.memberToken)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "userId":self.userid,
+                    "currentPage":""
+                }
             }
-        }
-        r = self.client.post('api/health/qReportList',data = json.dumps(payload),headers = headers,catch_response = True)
-        if r.status_code == 200:
-            if r.json()["code"] == '200' and r.json()["message"] == '成功': 
-                r.success()
+            r = self.client.post('api/health/qReportList',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
             else:
-                r.failure(r.json()['message'])
-        else:
-            r.failure("HTTP状态码"+str(r.status_code))
+                r.failure("HTTP状态码"+str(r.status_code))
         
     #同步成员检测报告
     def SyncReport(self):
-        headers = {"Content-Type":"application/json"}
-        payload = {
-            "lang":"ZH_CN",
-            "token":"slowshot",
-            "body":{
-                "userId":self.userid,
-                "link":"http://qianketong.cd641dc781add4bc6b8ed119cee669cb7.cn-hangzhou.alicontainer.com/testingResult/79276e015f804122a0796c9551b5a2ad"
+        if len(self.memberToken)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "body":{
+                    "userId":self.userid,
+                    "link":"http://qianketong.cd641dc781add4bc6b8ed119cee669cb7.cn-hangzhou.alicontainer.com/testingResult/79276e015f804122a0796c9551b5a2ad"
+                }
             }
-        }
-        r = self.client.post('api/health/dSyncReport',data = json.dumps(payload),headers = headers,catch_response = True)
-        if r.status_code == 200:
-            if r.json()["code"] == '200' and r.json()["message"] == '成功': 
-                r.success()
+            r = self.client.post('api/health/dSyncReport',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
             else:
-                r.failure(r.json()['message'])
-        else:
-            r.failure("HTTP状态码"+str(r.status_code))
+                r.failure("HTTP状态码"+str(r.status_code))
 
 
     #选择成员列表
     def UserList(self):
-        headers = {"Content-Type":"application/json"}
-        payload = {
-            "lang":"ZH_CN",
-            "token":"slowshot",
-            "version":"1.0.0",
-            "body":{
-                "memberToken":self.memberToken,
-                "memberId":self.memberid,
-                "currentPage":""
+        if len(self.memberToken)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "memberToken":self.memberToken,
+                    "memberId":self.memberid,
+                    "currentPage":""
+                }
             }
-        }
-        r = self.client.post('api/health/qUserList',data = json.dumps(payload),headers = headers,catch_response = True)
-        if r.status_code == 200:
-            if r.json()["code"] == '200' and r.json()["message"] == '成功': 
-                r.success()
-                self.locust.user=r.json()["value"]
-                num = random.randint(0,len(self.locust.user)-1)
-                self.userid = self.locust.user[num]["userId"]
+            r = self.client.post('api/health/qUserList',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                    self.locust.user=r.json()["value"]
+                    num = random.randint(0,len(self.locust.user)-1)
+                    self.userid = self.locust.user[num]["userId"]
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
             else:
-                r.failure(r.json()['message'])
-        else:
-            r.failure("HTTP状态码"+str(r.status_code))
+                r.failure("HTTP状态码"+str(r.status_code))
 
     #添加成员
     def AddUser(self):
-        headers = {"Content-Type":"application/json"}
-        payload = {
-            "lang":"ZH_CN",
-            "token":"slowshot",
-            "version":"1.0.0",
-            "body":{
-                "memberToken":self.memberToken,
-                "memberId":self.memberid,
-                "name":'测试用户'+str(self.yonghu),
-                "sex":"1",
-                "birth":"2018-11-11"
+        if len(self.memberToken)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "memberToken":self.memberToken,
+                    "memberId":self.memberid,
+                    "name":'测试用户'+str(self.yonghu),
+                    "sex":"1",
+                    "birth":"2018-11-11"
+                }
             }
-        }
-        r = self.client.post('api/health/dAddUser',data = json.dumps(payload),headers = headers,catch_response = True)
-        if r.status_code == 200:
-            if r.json()["code"] == '200' and r.json()["message"] == '成功': 
-                r.success()
-                self.yonghu = self.yonghu + 1
+            r = self.client.post('api/health/dAddUser',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                    self.yonghu = self.yonghu + 1
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
             else:
-                r.failure(r.json()['message'])
-        else:
-            r.failure("HTTP状态码"+str(r.status_code))
+                r.failure("HTTP状态码"+str(r.status_code))
 
     #删除消息数据（红点/黄点）
     def CancelMessage(self):
-        headers = {"Content-Type":"application/json"}
-        payload = {
-            "lang":"ZH_CN",
-            "token":"slowshot",
-            "version":"1.0.0",
-            "body":{
-                "memberId":self.memberid,
-                "type":1
+        if len(self.memberToken)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "memberId":self.memberid,
+                    "type":1
+                }
             }
-        }
-        r = self.client.post('api/comm/dCancelMessage',data = json.dumps(payload),headers = headers,catch_response = True)
-        if r.status_code == 200:
-            if r.json()["code"] == '200' and r.json()["message"] == '成功': 
-                r.success()
+            r = self.client.post('api/comm/dCancelMessage',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
             else:
-                r.failure(r.json()['message'])
-        else:
-            r.failure("HTTP状态码"+str(r.status_code))
+                r.failure("HTTP状态码"+str(r.status_code))
 
     #查询闪新闻-慢动态的消息数据
     def Message(self):
-        headers = {"Content-Type":"application/json"}
-        payload = {
-            "lang":"ZH_CN",
-            "token":"slowshot",
-            "version":"1.0.0",
-            "body":{
-                "memberId":self.memberid
+        if len(self.memberToken)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "memberId":self.memberid
+                }
             }
-        }
-        r = self.client.post('api/comm/qMessage',data = json.dumps(payload),headers = headers,catch_response = True)
-        if r.status_code == 200:
-            if r.json()["code"] == '200' and r.json()["message"] == '成功': 
-                r.success()
+            r = self.client.post('api/comm/qMessage',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
             else:
-                r.failure(r.json()['message'])
-        else:
-            r.failure("HTTP状态码"+str(r.status_code))
+                r.failure("HTTP状态码"+str(r.status_code))
 
     #版本检测接口
     def CheckAccess(self):
@@ -599,7 +641,7 @@ class MyTest(TaskSequence):
             if r.json()["code"] == '200' and r.json()["message"] == '成功': 
                 r.success()
             else:
-                r.failure(r.json()['message'])
+                r.failure(r.json()['code']+','+r.json()['message'])
         else:
             r.failure("HTTP状态码"+str(r.status_code))
 
@@ -617,31 +659,32 @@ class MyTest(TaskSequence):
             if r.json()["code"] == '200' and r.json()["message"] == '成功': 
                 r.success()
             else:
-                r.failure(r.json()['message'])
+                r.failure(r.json()['code']+','+r.json()['message'])
         else:
             r.failure("HTTP状态码"+str(r.status_code))
 
     #获取用户基本信息
     def UserInfo(self):
-        headers = {"Content-Type":"application/json"}
-        payload = {
-            "lang":"ZH_CN",
-            "token":"slowshot",
-            "version":"1.0.0",
-            "body":{
-                "accessToken":self.locust.accessToken,
-                "memberToken":self.memberToken,
-                "memberId":self.memberid,
+        if len(self.memberToken)>0:
+            headers = {"Content-Type":"application/json"}
+            payload = {
+                "lang":"ZH_CN",
+                "token":"slowshot",
+                "version":"1.0.0",
+                "body":{
+                    "accessToken":self.locust.accessToken,
+                    "memberToken":self.memberToken,
+                    "memberId":self.memberid,
+                }
             }
-        }
-        r = self.client.post('api/comm/qUserInfo',data = json.dumps(payload),headers = headers,catch_response = True)
-        if r.status_code == 200:
-            if r.json()["code"] == '200' and r.json()["message"] == '成功': 
-                r.success()
+            r = self.client.post('api/comm/qUserInfo',data = json.dumps(payload),headers = headers,catch_response = True)
+            if r.status_code == 200:
+                if r.json()["code"] == '200' and r.json()["message"] == '成功': 
+                    r.success()
+                else:
+                    r.failure(r.json()['code']+','+r.json()['message'])
             else:
-                r.failure(r.json()['message'])
-        else:
-            r.failure("HTTP状态码"+str(r.status_code))
+                r.failure("HTTP状态码"+str(r.status_code))
 
     #慢拍号列表 
     def Number(self):
@@ -660,7 +703,7 @@ class MyTest(TaskSequence):
             if r.json()["code"] == '200' and r.json()["message"] == '成功': 
                 r.success()
             else:
-                r.failure(r.json()['message'])
+                r.failure(r.json()['code']+','+r.json()['message'])
         else:
             r.failure("HTTP状态码"+str(r.status_code))
         
@@ -678,7 +721,7 @@ class MyTest(TaskSequence):
             if r.json()["code"] == '200' and r.json()["message"] == '成功':
                 r.success()
             else:
-                r.failure(r.json()['message'])
+                r.failure(r.json()['code']+','+r.json()['message'])
         else:
             r.failure("HTTP状态码"+str(r.status_code))
 
@@ -699,7 +742,7 @@ class MyTest(TaskSequence):
             if r.json()["code"] == '200' and r.json()["message"] == '成功':
                 r.success()
             else:
-                r.failure(r.json()['message'])
+                r.failure(r.json()['code']+','+r.json()['message'])
                 
         else:
             r.failure("HTTP状态码"+str(r.status_code))
@@ -739,9 +782,9 @@ class MyTest(TaskSequence):
                 num = random.randint(0,len(self.locust.memberinfo)-1)
                 self.memberToken = self.locust.memberinfo[num]["memberToken"]
                 self.memberid = self.locust.memberinfo[num]["memberId"]
-                print(self.memberToken,self.memberid)
+                print(self.memberToken,self.memberid,self.phone)
             else:
-                r.failure(r.json()['message'])
+                r.failure(r.json()['code']+','+r.json()['message'])
         else:
             r.failure("HTTP状态码"+str(r.status_code))
 
