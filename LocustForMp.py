@@ -248,7 +248,6 @@ class MyTest(TaskSequence):
             if r.status_code == 200:
                 if r.json()["code"] == '200' and r.json()["message"] == '成功': 
                     r.success()
-                    print(r.json())
                 else:
                     r.failure(r.json()['code']+','+r.json()['message'])
             else:
