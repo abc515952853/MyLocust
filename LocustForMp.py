@@ -25,8 +25,22 @@ class MyTest(TaskSequence):
         self.manpai = 1
         self.delphotoimgphotoid = ''
         self.delphotoimgvalue = {}
-        #登录
+
+        self.dddzzz = []
+
+        self.currentPage = 1
+
+        self.dianzan = 99
+        self.dianzan111 = ['99','100','101','102','103','104','105','106','107','108']
+
+        self.num = 1
+        # memberinfodata = self.locust.memberinfo1.pop(0)
+        # self.memberToken = memberinfodata["memberToken"]
+        # self.memberid = memberinfodata["memberId"]
+
+        # # #登录
         self.LogIn()
+
 
     ##########################################################基础接口###########################################################
     #验证验证码
@@ -228,7 +242,12 @@ class MyTest(TaskSequence):
         self.ModifyImgTitle()
 
 
-    # ##########################################################实现函数###########################################################
+    # @task(1)
+    # def test_test(self):
+    #     print("111")
+
+
+    ##########################################################实现函数###########################################################
     #修改图片标题
     def ModifyImgTitle(self):
         if len(self.photolistId)>0:
@@ -270,7 +289,7 @@ class MyTest(TaskSequence):
                     "title":"一个标题"+str(self.manpai),
                     "memberId":self.memberid,
                     "city":"杭州",
-                    "cover":"test/i5show/user/album/4/28489012397.jpg",
+                    "cover":"test/BinTest/D1.jpg",
                     "coverFirst":"第一句话"+str(self.manpai),
                     "memberToken":self.memberToken,
                 }
@@ -333,8 +352,49 @@ class MyTest(TaskSequence):
 
     #创建慢拍
     def CreatePhoto(self):
-        if len(self.memberToken)>0:
+        if len(self.memberToken)>0 and self.num<=500:
             headers = {"Content-Type":"application/json"}
+            img = [
+                    {
+                        "img":"test/BinTest/D3.jpg",
+                        "title":"",
+                        "width":"100",
+                        "height":"102",
+                        "deviceType":"iPhone 6s"
+                    },
+                    {
+                        "img":"test/BinTest/D4.jpg",
+                        "title":"",
+                        "width":"100",
+                        "height":"102",
+                        "deviceType":"iPhone 6s"
+                    },
+                    {
+                        "img":"test/BinTest/D5.jpg",
+                        "title":"",
+                        "width":"100",
+                        "height":"102",
+                        "deviceType":"iPhone 6s"
+                    },
+                    {
+                        "img":"test/BinTest/D6.jpg",
+                        "title":"",
+                        "width":"100",
+                        "height":"102",
+                        "deviceType":"iPhone 6s"
+                    },
+                    {
+                        "img":"test/BinTest/D7.jpg",
+                        "title":"",
+                        "width":"100",
+                        "height":"102",
+                        "deviceType":"iPhone 6s"
+                    }
+                ]
+            imgs = []
+            for i in range(2):
+                for ii in range(len(img)):
+                    imgs.append(img[ii])
             payload = {
                 "lang":"ZH_CN",
                 "token":"slowshot",
@@ -346,49 +406,13 @@ class MyTest(TaskSequence):
                     "province":"浙江",
                     "link":"",
                     "deviceType":"iPhone 6s",
-                    "title":"一个标题"+str(self.manpai),
+                    "title":"一个标题"+str(self.manpai)+"#最美家乡评选#",
                     "memberId":self.memberid,
                     "city":"杭州",
-                    "cover":"test/i5show/user/album/4/28489012397.jpg",
+                    "cover":"test/BinTest/D2.jpg",
                     "coverFirst":"第一句话"+str(self.manpai),
                     "memberToken":self.memberToken,
-                    "imgs":[
-                        {
-                            "img":"test/i5show/user/album/4/290440756318.jpg",
-                            "title":"",
-                            "width":"100",
-                            "height":"102",
-                            "deviceType":"iPhone 6s"
-                        },
-                        {
-                            "img":"test/i5show/user/album/4/28489012397.jpg",
-                            "title":"",
-                            "width":"100",
-                            "height":"102",
-                            "deviceType":"iPhone 6s"
-                        },
-                        {
-                            "img":"test/i5show/user/album/4/279365590855.jpg",
-                            "title":"",
-                            "width":"100",
-                            "height":"102",
-                            "deviceType":"iPhone 6s"
-                        },
-                        {
-                            "img":"test/i5show/user/album/4/273376967418.jpg",
-                            "title":"",
-                            "width":"100",
-                            "height":"102",
-                            "deviceType":"iPhone 6s"
-                        },
-                        {
-                            "img":"test/i5show/user/album/4/263062404296W.jpg",
-                            "title":"",
-                            "width":"100",
-                            "height":"102",
-                            "deviceType":"iPhone 6s"
-                        }
-                    ]
+                    "imgs":imgs
                 }
             }
             r = self.client.post('api/photo/dCreatePhoto',data = json.dumps(payload),headers = headers,catch_response = True)
@@ -396,6 +420,7 @@ class MyTest(TaskSequence):
                 if r.json()["code"] == '200' and r.json()["message"] == '成功': 
                     r.success()
                     self.manpai = self.manpai + 1
+                    self.num = self.num +1
                     self.photoid = r.json()["value"]["photoId"]
                 else:
                     r.failure(r.json()['code']+','+r.json()['message'])
@@ -480,14 +505,15 @@ class MyTest(TaskSequence):
     def PhotoParise(self):
         if len(self.photolistId)>0:
             headers = {"Content-Type":"application/json"}
+            memberid = self.memberid
             payload = {
                 "lang":"ZH_CN",
                 "token":"slowshot",
                 "version":"1.0.0",
                 "body":{
                     "memberToken":self.memberToken,
-                    "memberId":self.memberid,
-                    "photoId":self.photolistId,
+                    "memberId":memberid,
+                    "photoId":self.photolistId
                 }
             }
             r = self.client.post('api/photo/dParise',data = json.dumps(payload),headers = headers,catch_response = True)
@@ -512,6 +538,7 @@ class MyTest(TaskSequence):
                     "memberToken":self.memberToken,
                     "currentPage":"",
                     "photoId":photolistId
+
                 }
             }
             r = self.client.post('api/photo/qImgs',data = json.dumps(payload),headers = headers,catch_response = True)
@@ -560,17 +587,18 @@ class MyTest(TaskSequence):
                 "body":{
                     "memberToken":self.memberToken,
                     "memberId":self.memberid,
-                    "city":"杭州市",
-                    "currentPage":""
+                    "city":"台州",
+                    "currentPage":str(random.randint(1,100))
                 }
             }
             r = self.client.post('api/photo/qList',data = json.dumps(payload),headers = headers,catch_response = True)
             if r.status_code == 200:
                 if r.json()["code"] == '200' and r.json()["message"] == '成功': 
                     r.success()
-                    self.locust.photo=r.json()["value"]  
-                    num = random.randint(0,len(self.locust.photo)-1)
-                    self.photolistId = self.locust.photo[num]["photoId"]
+                    if len(r.json()["value"])>0:
+                        self.locust.photo=r.json()["value"]  
+                        num = random.randint(0,len(self.locust.photo)-1)
+                        self.photolistId = self.locust.photo[num]["photoId"]
                 else:
                     r.failure(r.json()['code']+','+r.json()['message'])
             else:
@@ -1166,17 +1194,23 @@ class MyTest(TaskSequence):
                 r.success()
                 userdata = {"memberToken":r.json()['value']['memberToken'],"memberId":r.json()['value']['memberId']}
                 self.locust.memberinfo.append(userdata)
-                num = random.randint(0,len(self.locust.memberinfo)-1)
-                self.memberToken = self.locust.memberinfo[num]["memberToken"]
-                self.memberid = self.locust.memberinfo[num]["memberId"]
-                print(self.memberToken,self.memberid,self.phone)
+                # num = random.randint(0,len(self.locust.memberinfo)-1)
+                # self.memberToken = self.locust.memberinfo[num]["memberToken"]
+                # self.memberid = self.locust.memberinfo[num]["memberId"]
+
+                memberinfo = self.locust.memberinfo.pop(0)
+                self.memberToken = memberinfo["memberToken"]
+                self.memberid = memberinfo["memberId"]
             else:
                 r.failure(r.json()['code']+','+r.json()['message'])
+                # print(self.phone,self.mpno,self.memberToken,self.memberToken)
+                print(self.phone)
         else:
             r.failure("HTTP状态码"+str(r.status_code))
+            print(self.phone,self.mpno)
 
 class BestTestIndexUser(HttpLocust):
-    host = "https://apit.lutuapp.com/slowshot-api/" 
+    host = "https://api.manpai.club/slowshot/" 
     accessToken = 'db20a5ccf7ab11e886e8ec0d9a2fab3e'
 
     data =  GetExcl.read_excl().get_excl_data()
@@ -1186,12 +1220,17 @@ class BestTestIndexUser(HttpLocust):
     activity = []
     activityphonto = []
     photo = []
+
+    memberinfo1 = [
+        {"memberToken":"264642847ed57f6f3c14a476f6b666bc","memberId":"3030"},
+    ]
+
     for i in range(len(data)):                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
         userdatas.append(data[i])
 
     task_set = MyTest 
 
-    min_wait = 1000
+    min_wait = 2000
     max_wait = 3000
 
 if __name__ == "__main__":
