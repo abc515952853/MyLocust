@@ -31,7 +31,6 @@ class MyTest(TaskSequence):
         self.currentPage = 1
 
         self.dianzan = 99
-        self.dianzan111 = ['99','100','101','102','103','104','105','106','107','108']
 
         self.num = 1
         # memberinfodata = self.locust.memberinfo1.pop(0)
@@ -41,205 +40,209 @@ class MyTest(TaskSequence):
         # # #登录
         self.LogIn()
 
+    # #登录
+    # @task(1)
+    # def test_LogIn(self):
+    #     self.LogIn()
 
-    ##########################################################基础接口###########################################################
-    #验证验证码
-    @task(1)
-    def test_CheckCaptcha(self):
-        self.CheckCaptcha()
+    # ##########################################################基础接口###########################################################
+    # #验证验证码
+    # @task(1)
+    # def test_CheckCaptcha(self):
+    #     self.CheckCaptcha()
 
-    #获取基础数据    
-    @task(1)
-    def test_BaseData(self):
-        self.BaseData()
-
-
-    #慢拍号列表
-    @task(1)
-    def test_Number(self):
-        self.Number()
-
-    #获取用户基本信息
-    @task(1)
-    def test_UserInfo(self):
-        self.UserInfo()
-
-    #系统礼物数据接口
-    @task(1)
-    def test_Gift(self):
-        self.Gift()
-
-    #版本检测接口
-    @task(1)
-    def test_CheckAccess(self):
-        self.CheckAccess()
-
-    #查询闪新闻-慢动态的消息数据
-    @task(1)
-    def test_Message(self):
-        self.Message()
+    # #获取基础数据    
+    # @task(1)
+    # def test_BaseData(self):
+    #     self.BaseData()
 
 
-    #删除消息数据（红点/黄点）
-    @task(1)
-    def test_CancelMessage(self):
-        self.CancelMessage()
+    # #慢拍号列表
+    # @task(1)
+    # def test_Number(self):
+    #     self.Number()
 
-    ##########################################################健康检测###########################################################
-    #添加成员
-    @seq_task(1)
-    @task(1)
-    def test_AddUser(self):
-        self.AddUser()
+    # #获取用户基本信息
+    # @task(1)
+    # def test_UserInfo(self):
+    #     self.UserInfo()
 
-    #选择成员列表
-    @seq_task(2)
-    @task(1)
-    def test_UserList(self):
-        self.UserList()
+    # #系统礼物数据接口
+    # @task(1)
+    # def test_Gift(self):
+    #     self.Gift()
+
+    # #版本检测接口
+    # @task(1)
+    # def test_CheckAccess(self):
+    #     self.CheckAccess()
+
+    # #查询闪新闻-慢动态的消息数据
+    # @task(1)
+    # def test_Message(self):
+    #     self.Message()
 
 
-    # #同步检测报告
+    # #删除消息数据（红点/黄点）
+    # @task(1)
+    # def test_CancelMessage(self):
+    #     self.CancelMessage()
+
+    # ##########################################################健康检测###########################################################
+    # #添加成员
+    # @seq_task(1)
+    # @task(1)
+    # def test_AddUser(self):
+    #     self.AddUser()
+
+    # #选择成员列表
+    # @seq_task(2)
+    # @task(1)
+    # def test_UserList(self):
+    #     self.UserList()
+
+
+    # # #同步检测报告
+    # # @seq_task(3)
+    # # @task(1)
+    # # def test_SyncReport(self):
+    # #     self.SyncReport()
+
+    # #报告列表
+    # @seq_task(4)
+    # @task(1)
+    # def test_ReportList(self):
+    #     self.ReportList()
+
+    # #成员告列表
     # @seq_task(3)
     # @task(1)
-    # def test_SyncReport(self):
-    #     self.SyncReport()
+    # def test_UserReportList(self):
+    #     self.UserReportList()
 
-    #报告列表
-    @seq_task(4)
-    @task(1)
-    def test_ReportList(self):
-        self.ReportList()
+    # ##########################################################个人中心###########################################################
+    # #我的慢拍
+    # @task(1)
+    # def test_MyPhoto(self):
+    #     self.MyPhoto()
 
-    #成员告列表
-    @seq_task(3)
-    @task(1)
-    def test_UserReportList(self):
-        self.UserReportList()
+    # #我的更多慢拍
+    # @task(1)
+    # def test_MyPhotoMore(self):
+    #     self.MyPhotoMore()
 
-    ##########################################################个人中心###########################################################
-    #我的慢拍
-    @task(1)
-    def test_MyPhoto(self):
-        self.MyPhoto()
+    # #慢拍和粉丝统计
+    # @task(1)
+    # def test_MyPhotoStatistics(self):
+    #     self.MyPhotoStatistics()
 
-    #我的更多慢拍
-    @task(1)
-    def test_MyPhotoMore(self):
-        self.MyPhotoMore()
+    # #消息列表
+    # @task(1)
+    # def test_MessageList(self):
+    #     self.MessageList()  
 
-    #慢拍和粉丝统计
-    @task(1)
-    def test_MyPhotoStatistics(self):
-        self.MyPhotoStatistics()
+    # #修改我的资料
+    # @task(1)
+    # def test_ModifyMyInfo(self):
+    #     self.ModifyMyInfo()  
 
-    #消息列表
-    @task(1)
-    def test_MessageList(self):
-        self.MessageList()  
+    # ##########################################################活动###########################################################
 
-    #修改我的资料
-    @task(1)
-    def test_ModifyMyInfo(self):
-        self.ModifyMyInfo()  
+    # #活动列表
+    # @seq_task(2)
+    # @task(1)
+    # def test_ActivityList(self):
+    #     self.ActivityList()
 
-    ##########################################################活动###########################################################
+    # #活动详情-慢拍列表
+    # @seq_task(3)
+    # @task(1)
+    # def test_ActivityPhotos(self):
+    #     self.ActivityPhotos()
 
-    #活动列表
-    @seq_task(2)
-    @task(1)
-    def test_ActivityList(self):
-        self.ActivityList()
+    # #活动详情-慢拍投票
+    # @seq_task(4)
+    # @task(1)
+    # def test_PhotoVote(self):
+    #     self.PhotoVote()
 
-    #活动详情-慢拍列表
-    @seq_task(3)
-    @task(1)
-    def test_ActivityPhotos(self):
-        self.ActivityPhotos()
+    # #活动详情-h5
+    # @seq_task(3)
+    # @task(1)
+    # def test_ActivityDetailH5(self):
+    #     self.ActivityDetailH5()
 
-    #活动详情-慢拍投票
-    @seq_task(4)
-    @task(1)
-    def test_PhotoVote(self):
-        self.PhotoVote()
+    # #活动慢拍详情-h5
+    # @seq_task(3)
+    # @task(1)
+    # def test_ActivityPhotosH5(self):
+    #     self.ActivityPhotosH5()
 
-    #活动详情-h5
-    @seq_task(3)
-    @task(1)
-    def test_ActivityDetailH5(self):
-        self.ActivityDetailH5()
+    # #活动列表
+    # @task(1)
+    # def test_Apply(self):
+    #     self.Apply()
 
-    #活动慢拍详情-h5
-    @seq_task(3)
-    @task(1)
-    def test_ActivityPhotosH5(self):
-        self.ActivityPhotosH5()
+    #########################################################相册###########################################################
+    # #首页-慢拍列表
+    # @task(1)
+    # def test_PhotoList(self):
+    #     self.PhotoList()
 
-    #活动列表
-    @task(1)
-    def test_Apply(self):
-        self.Apply()
+    # #慢拍详情
+    # @task(1)
+    # def test_PhotoDetail(self):
+    #     self.PhotoDetail()
 
-    ##########################################################相册###########################################################
-    #首页-慢拍列表
-    @task(1)
-    def test_PhotoList(self):
-        self.PhotoList()
+    # #慢拍的图片列表
+    # @task(2)
+    # def test_PhotoImgs(self):
+    #     self.PhotoImgs()
 
-    #慢拍详情
-    @task(1)
-    def test_PhotoDetail(self):
-        self.PhotoDetail()
+    # #点赞
+    # @task(1)
+    # def test_PhotoParise(self):
+    #     self.PhotoParise()
 
-    #慢拍的图片列表
-    @task(2)
-    def test_PhotoImgs(self):
-        self.PhotoImgs()
+    # #评论
+    # @task(1)
+    # def test_PhotoComment(self):
+    #     self.PhotoComment()
 
-    #点赞
-    @task(1)
-    def test_PhotoParise(self):
-        self.PhotoParise()
+    # #评论列表
+    # @task(1)
+    # def test_CommentList(self):
+    #     self.CommentList()
 
-    #评论
-    @task(1)
-    def test_PhotoComment(self):
-        self.PhotoComment()
-
-    #评论列表
-    @task(1)
-    def test_CommentList(self):
-        self.CommentList()
-
-    #记录用户浏览的慢拍
-    @task(1)
-    def test_Browse(self):
-        self.Browse()
+    # #记录用户浏览的慢拍
+    # @task(1)
+    # def test_Browse(self):
+    #     self.Browse()
 
     #创建慢拍
     @task(2)
     def test_CreatePhoto(self):
         self.CreatePhoto()
     
-    #删除慢拍
-    @task(1)
-    def test_DelPhoto(self):
-        self.DelPhoto()
+    # #删除慢拍
+    # @task(1)
+    # def test_DelPhoto(self):
+    #     self.DelPhoto()
 
-    #删除慢拍图片
-    @task(1)
-    def test_DelPhotoImg(self):
-        self.DelPhotoImg()
+    # #删除慢拍图片
+    # @task(1)
+    # def test_DelPhotoImg(self):
+    #     self.DelPhotoImg()
 
-    #修改图片
-    @task(1)
-    def test_ModifyCover(self):
-        self.ModifyCover()
+    # #修改图片
+    # @task(1)
+    # def test_ModifyCover(self):
+    #     self.ModifyCover()
 
-    #修改图片标题
-    @task(1)
-    def test_ModifyImgTitle(self):
-        self.ModifyImgTitle()
+    # #修改图片标题
+    # @task(1)
+    # def test_ModifyImgTitle(self):
+    #     self.ModifyImgTitle()
 
 
     # @task(1)
@@ -352,39 +355,39 @@ class MyTest(TaskSequence):
 
     #创建慢拍
     def CreatePhoto(self):
-        if len(self.memberToken)>0 and self.num<=500:
+        if len(self.memberToken)>0 and self.num <= 1:
             headers = {"Content-Type":"application/json"}
             img = [
                     {
-                        "img":"test/BinTest/D3.jpg",
+                        "img":"default/photo/D3.jpg",
                         "title":"",
                         "width":"100",
                         "height":"102",
                         "deviceType":"iPhone 6s"
                     },
                     {
-                        "img":"test/BinTest/D4.jpg",
+                        "img":"default/photo/D4.jpg",
                         "title":"",
                         "width":"100",
                         "height":"102",
                         "deviceType":"iPhone 6s"
                     },
                     {
-                        "img":"test/BinTest/D5.jpg",
+                        "img":"default/photo/D5.jpg",
                         "title":"",
                         "width":"100",
                         "height":"102",
                         "deviceType":"iPhone 6s"
                     },
                     {
-                        "img":"test/BinTest/D6.jpg",
+                        "img":"default/photo/D6.jpg",
                         "title":"",
                         "width":"100",
                         "height":"102",
                         "deviceType":"iPhone 6s"
                     },
                     {
-                        "img":"test/BinTest/D7.jpg",
+                        "img":"default/photo/D7.jpg",
                         "title":"",
                         "width":"100",
                         "height":"102",
@@ -392,7 +395,7 @@ class MyTest(TaskSequence):
                     }
                 ]
             imgs = []
-            for i in range(2):
+            for i in range(1):
                 for ii in range(len(img)):
                     imgs.append(img[ii])
             payload = {
@@ -408,8 +411,8 @@ class MyTest(TaskSequence):
                     "deviceType":"iPhone 6s",
                     "title":"一个标题"+str(self.manpai)+"#最美家乡评选#",
                     "memberId":self.memberid,
-                    "city":"杭州",
-                    "cover":"test/BinTest/D2.jpg",
+                    "city":"台州",
+                    "cover":"test/BinTest/D6.jpg",
                     "coverFirst":"第一句话"+str(self.manpai),
                     "memberToken":self.memberToken,
                     "imgs":imgs
@@ -588,7 +591,7 @@ class MyTest(TaskSequence):
                     "memberToken":self.memberToken,
                     "memberId":self.memberid,
                     "city":"台州",
-                    "currentPage":str(random.randint(1,100))
+                    "currentPage":"100"#str(random.randint(1,100))
                 }
             }
             r = self.client.post('api/photo/qList',data = json.dumps(payload),headers = headers,catch_response = True)
@@ -1189,25 +1192,31 @@ class MyTest(TaskSequence):
             }
         }
         r = self.client.post('api/login/dLogin',data = json.dumps(payload),headers = headers,catch_response = True)
+        self.locust.num1.append('1')
+        print(len(self.locust.num1))
         if r.status_code == 200:
             if r.json()["code"] == '200' and r.json()["message"] == '成功':
                 r.success()
                 userdata = {"memberToken":r.json()['value']['memberToken'],"memberId":r.json()['value']['memberId']}
                 self.locust.memberinfo.append(userdata)
+
+                # #随机获取手机号
                 # num = random.randint(0,len(self.locust.memberinfo)-1)
                 # self.memberToken = self.locust.memberinfo[num]["memberToken"]
                 # self.memberid = self.locust.memberinfo[num]["memberId"]
 
+                # 不重复获取
                 memberinfo = self.locust.memberinfo.pop(0)
                 self.memberToken = memberinfo["memberToken"]
                 self.memberid = memberinfo["memberId"]
+
+                # print(self.phone,self.memberToken)
             else:
                 r.failure(r.json()['code']+','+r.json()['message'])
-                # print(self.phone,self.mpno,self.memberToken,self.memberToken)
-                print(self.phone)
+                # print(self.phone,self.mpno,self.memberToken,self.memberToken)       
         else:
             r.failure("HTTP状态码"+str(r.status_code))
-            print(self.phone,self.mpno)
+            
 
 class BestTestIndexUser(HttpLocust):
     host = "https://api.manpai.club/slowshot/" 
@@ -1220,6 +1229,8 @@ class BestTestIndexUser(HttpLocust):
     activity = []
     activityphonto = []
     photo = []
+
+    num1 = []
 
     memberinfo1 = [
         {"memberToken":"264642847ed57f6f3c14a476f6b666bc","memberId":"3030"},
