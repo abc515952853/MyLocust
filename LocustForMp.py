@@ -37,8 +37,8 @@ class MyTest(TaskSequence):
         # self.memberToken = memberinfodata["memberToken"]
         # self.memberid = memberinfodata["memberId"]
 
-        # # #登录
-        self.LogIn()
+        # # # #登录
+        # self.LogIn()
 
     # #登录
     # @task(1)
@@ -355,7 +355,7 @@ class MyTest(TaskSequence):
 
     #创建慢拍
     def CreatePhoto(self):
-        if len(self.memberToken)>0 and self.num <= 1:
+        if self.num <= 30:#len(self.memberToken)>0 and self.num <= 30:
             headers = {"Content-Type":"application/json"}
             img = [
                     {
@@ -395,9 +395,10 @@ class MyTest(TaskSequence):
                     }
                 ]
             imgs = []
-            for i in range(1):
+            for i in range(100):
                 for ii in range(len(img)):
                     imgs.append(img[ii])
+            area = ['杭州','宁波','温州','绍兴','湖州','嘉兴','金华','衢州','台州','丽水','舟山']
             payload = {
                 "lang":"ZH_CN",
                 "token":"slowshot",
@@ -410,11 +411,11 @@ class MyTest(TaskSequence):
                     "link":"",
                     "deviceType":"iPhone 6s",
                     "title":"一个标题"+str(self.manpai)+"#最美家乡评选#",
-                    "memberId":self.memberid,
-                    "city":"台州",
-                    "cover":"test/BinTest/D6.jpg",
+                    "memberId":'10606',#self.memberid,
+                    "city":area[random.randint(0,10)],
+                    "cover":"default/photo/D6.jpg",
                     "coverFirst":"第一句话"+str(self.manpai),
-                    "memberToken":self.memberToken,
+                    "memberToken":'d420ed9442b948172544ab70c1e44fb0',#self.memberToken,
                     "imgs":imgs
                 }
             }
@@ -481,7 +482,7 @@ class MyTest(TaskSequence):
         
     #评论
     def PhotoComment(self):
-        if len(self.photolistId)>0:
+        if self.num <2:#len(self.photolistId)>0:
             headers = {"Content-Type":"application/json"}
             payload = {
                 "lang":"ZH_CN",
@@ -490,7 +491,7 @@ class MyTest(TaskSequence):
                 "body":{
                     "memberToken":self.memberToken,
                     "memberId":self.memberid,
-                    "photoId":self.photolistId,
+                    "photoId":'455251',#self.photolistId,
                     "comments":"评论"+str(self.pinglun)
                 }
             }
@@ -506,7 +507,7 @@ class MyTest(TaskSequence):
 
     #点赞
     def PhotoParise(self):
-        if len(self.photolistId)>0:
+        if  self.num <2:#len(self.photolistId)>0:
             headers = {"Content-Type":"application/json"}
             memberid = self.memberid
             payload = {
@@ -516,7 +517,7 @@ class MyTest(TaskSequence):
                 "body":{
                     "memberToken":self.memberToken,
                     "memberId":memberid,
-                    "photoId":self.photolistId
+                    "photoId":'455251'#self.photolistId
                 }
             }
             r = self.client.post('api/photo/dParise',data = json.dumps(payload),headers = headers,catch_response = True)
@@ -676,7 +677,7 @@ class MyTest(TaskSequence):
 
     #活动详情-慢拍投票
     def PhotoVote(self):
-        if len(self.activityphontophontoid) > 0:
+        if self.num<=1:#len(self.activityphontophontoid) > 0,:
             headers = {"Content-Type":"application/json"}
             payload = {
                 "lang":"ZH_CN",
@@ -685,14 +686,15 @@ class MyTest(TaskSequence):
                 "body":{
                     "memberToken":self.memberToken,
                     "memberId":self.memberid,
-                    "activityId":self.activityphontoactivityid,
-                    "photoId":self.activityphontophontoid
+                    "activityId":'2',#self.activityphontoactivityid,
+                    "photoId":'455240'#self.activityphontophontoid
                 }
             }
             r = self.client.post('api/activity/dPhotoVote',data = json.dumps(payload),headers = headers,catch_response = True)
             if r.status_code == 200:
                 if r.json()["code"] == '200' and r.json()["message"] == '成功': 
                     r.success()
+                    self.num = self.num + 1
                 else:
                     r.failure(r.json()['code']+','+r.json()['message'])
             else:
