@@ -37,8 +37,8 @@ class MyTest(TaskSequence):
         # self.memberToken = memberinfodata["memberToken"]
         # self.memberid = memberinfodata["memberId"]
 
-        # # # #登录
-        # self.LogIn()
+        # # #登录
+        self.LogIn()
 
     # #登录
     # @task(1)
@@ -358,36 +358,36 @@ class MyTest(TaskSequence):
         if self.num <= 30:#len(self.memberToken)>0 and self.num <= 30:
             headers = {"Content-Type":"application/json"}
             img = [
+                    # {
+                    #     "img":"default/photo/D3.jpg",
+                    #     "title":"",
+                    #     "width":"100",
+                    #     "height":"102",
+                    #     "deviceType":"iPhone 6s"
+                    # },
+                    # {
+                    #     "img":"default/photo/D4.jpg",
+                    #     "title":"",
+                    #     "width":"100",
+                    #     "height":"102",
+                    #     "deviceType":"iPhone 6s"
+                    # },
+                    # {
+                    #     "img":"default/photo/D5.jpg",
+                    #     "title":"",
+                    #     "width":"100",
+                    #     "height":"102",
+                    #     "deviceType":"iPhone 6s"
+                    # },
+                    # {
+                    #     "img":"default/photo/D6.jpg",
+                    #     "title":"",
+                    #     "width":"100",
+                    #     "height":"102",
+                    #     "deviceType":"iPhone 6s"
+                    # },
                     {
-                        "img":"default/photo/D3.jpg",
-                        "title":"",
-                        "width":"100",
-                        "height":"102",
-                        "deviceType":"iPhone 6s"
-                    },
-                    {
-                        "img":"default/photo/D4.jpg",
-                        "title":"",
-                        "width":"100",
-                        "height":"102",
-                        "deviceType":"iPhone 6s"
-                    },
-                    {
-                        "img":"default/photo/D5.jpg",
-                        "title":"",
-                        "width":"100",
-                        "height":"102",
-                        "deviceType":"iPhone 6s"
-                    },
-                    {
-                        "img":"default/photo/D6.jpg",
-                        "title":"",
-                        "width":"100",
-                        "height":"102",
-                        "deviceType":"iPhone 6s"
-                    },
-                    {
-                        "img":"default/photo/D7.jpg",
+                        "img":"test/manpai/user/album/1/155065683404.jpg",
                         "title":"",
                         "width":"100",
                         "height":"102",
@@ -395,7 +395,7 @@ class MyTest(TaskSequence):
                     }
                 ]
             imgs = []
-            for i in range(100):
+            for i in range(1):
                 for ii in range(len(img)):
                     imgs.append(img[ii])
             area = ['杭州','宁波','温州','绍兴','湖州','嘉兴','金华','衢州','台州','丽水','舟山']
@@ -410,12 +410,12 @@ class MyTest(TaskSequence):
                     "province":"浙江",
                     "link":"",
                     "deviceType":"iPhone 6s",
-                    "title":"一个标题"+str(self.manpai)+"#最美家乡评选#",
-                    "memberId":'10606',#self.memberid,
+                    "title":"一个标题"+str(self.manpai)+"零食",
+                    "memberId":143,#self.memberid,
                     "city":area[random.randint(0,10)],
-                    "cover":"default/photo/D6.jpg",
+                    "cover":"test/manpai/user/album/1/155065683411.jpg",
                     "coverFirst":"第一句话"+str(self.manpai),
-                    "memberToken":'d420ed9442b948172544ab70c1e44fb0',#self.memberToken,
+                    "memberToken":self.memberToken,
                     "imgs":imgs
                 }
             }
@@ -1221,7 +1221,7 @@ class MyTest(TaskSequence):
             
 
 class BestTestIndexUser(HttpLocust):
-    host = "https://api.manpai.club/slowshot/" 
+    host = "https://apit.lutuapp.com/slowshot-api/" 
     accessToken = 'db20a5ccf7ab11e886e8ec0d9a2fab3e'
 
     data =  GetExcl.read_excl().get_excl_data()

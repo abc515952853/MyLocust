@@ -13,107 +13,107 @@ class MyTest(TaskSet):
         # self.SendCode()
         self.LogIn()
 
-    #创建说说
-    @task(6)
-    def test_HomePublish(self):
-        self.HomePublish()
+#     #创建说说
+#     @task(6)
+#     def test_HomePublish(self):
+#         self.HomePublish()
     
-    #创建相册
-    @task(6)
-    def test_PhotoPublish(self):
-        self.PhotoPublish()
+#     #创建相册
+#     @task(6)
+#     def test_PhotoPublish(self):
+#         self.PhotoPublish()
 
-    #家人圈列表
-    @task(5)
-    def test_HomeList(self):
-        self.HomeList()
+#     #家人圈列表
+#     @task(5)
+#     def test_HomeList(self):
+#         self.HomeList()
 
-    #点赞
-    @task(100)
-    def test_HomeParise(self):
-        self.HomeParise()
+#     #点赞
+#     @task(100)
+#     def test_HomeParise(self):
+#         self.HomeParise()
 
-    #评论
-    @task(100)
-    def test_PhotoComment(self):
-        self.PhotoComment()
+#     #评论
+#     @task(100)
+#     def test_PhotoComment(self):
+#         self.PhotoComment()
 
-    #获取基础数据
-    @task(10)
-    def test_BaseData(self):
-        self.BaseData() 
+#     #获取基础数据
+#     @task(10)
+#     def test_BaseData(self):
+#         self.BaseData() 
 
-   #获取用户基本信息
-    @task(10)
-    def test_UserInfo(self):
-        self.UserInfo()
+#    #获取用户基本信息
+#     @task(10)
+#     def test_UserInfo(self):
+#         self.UserInfo()
 
-    #轮播数据
-    @task(10)
-    def test_Broadcast(self):
-        self.Broadcast()
+#     #轮播数据
+#     @task(10)
+#     def test_Broadcast(self):
+#         self.Broadcast()
     
-    #系统礼物数据
-    @task(10)
-    def test_Gift(self):
-        self.Gift()
+#     #系统礼物数据
+#     @task(10)
+#     def test_Gift(self):
+#         self.Gift()
 
-    #版本检测接口
-    @task(10)
-    def test_CheckAccess(self):
-        self.CheckAccess()
+#     #版本检测接口
+#     @task(10)
+#     def test_CheckAccess(self):
+#         self.CheckAccess()
 
-    #首页_家人圈列表 _送礼物
-    @task(10)
-    def test_HomeGiftList(self):
-        self.HomeGiftList()
+#     #首页_家人圈列表 _送礼物
+#     @task(10)
+#     def test_HomeGiftList(self):
+#         self.HomeGiftList()
 
-    #投票列表
-    @task(10)
-    def test_VoteList(self):
-        self.VoteList()
+#     #投票列表
+#     @task(10)
+#     def test_VoteList(self):
+#         self.VoteList()
 
-    #添加用户
-    @task(10)
-    def test_AddUser(self):
-        self.AddUser()
+#     #添加用户
+#     @task(10)
+#     def test_AddUser(self):
+#         self.AddUser()
 
 
-    #用户列表 
-    @task(1)
-    def test_UserList(self):
-        self.UserList()
+#     #用户列表 
+#     @task(1)
+#     def test_UserList(self):
+#         self.UserList()
 
-    #成员报告列表
-    @task(10)
-    def test_UserReportList(self):
-        self.UserReportList()
+#     #成员报告列表
+#     @task(10)
+#     def test_UserReportList(self):
+#         self.UserReportList()
 
-    #报告列表
-    @task(10)
-    def test_ReportList(self):
-        self.ReportList()
+#     #报告列表
+#     @task(10)
+#     def test_ReportList(self):
+#         self.ReportList()
 
-    #同步成员检测报告
-    @task(1)
-    def test_SyncReport(self):
-        self.SyncReport()
+#     #同步成员检测报告
+#     @task(1)
+#     def test_SyncReport(self):
+#         self.SyncReport()
 
-    @task(10)
-    def test_MyInfo(self):
-        self.MyInfo()
+#     @task(10)
+#     def test_MyInfo(self):
+#         self.MyInfo()
 
-    @task(10)
-    def test_MyMessage(self):
-        self.MyMessage()
+#     @task(10)
+#     def test_MyMessage(self):
+#         self.MyMessage()
     
-    @task(10)
-    def test_MyShow(self):
-        self.MyShow()
+#     @task(10)
+#     def test_MyShow(self):
+#         self.MyShow()
 
-    @task(10)
-    def test_DelMyShow(self):
-        self.DelMyShow()
+#     @task(10)
+#     def test_DelMyShow(self):
+#         self.DelMyShow()
 
 
     # @task(1)
